@@ -3,14 +3,14 @@
 @Auth
     <div class="p-2 text-muted">Welcome <a
             href="/edit"><strong><i>{{ \Illuminate\Support\Facades\Auth::user()->email }}</i></strong></a></div>
-    {{--<a class="p-2 text-muted" href="/logout">Logout</a>--}}
+    <a class="p-2 text-muted" href="/logout">Logout</a>
 @endauth
 @guest
     <a class="p-2 text-muted" href="/register">Register</a>
     <a class="p-2 text-muted" href="/login">Login</a>
 @endguest
 
-<a class="p-2 text-muted" href="/home">Home</a>
+<a class="p-2 text-muted" href="/">Home</a>
 </nav>
 </div>
 <hr>

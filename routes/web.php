@@ -22,4 +22,5 @@ Route::get('/register', 'RegistrationsController@show')->name('register');
 Route::get('/login', 'SessionsController@show')->name('login');
 Route::post('/login', 'SessionsController@store');
 Route::get('/', 'SessionsController@index')->name('home');
+Route::get('/logout', 'SessionsController@destroy');
 
