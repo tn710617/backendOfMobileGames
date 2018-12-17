@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/payments', 'PaymentsController@paymentConnect');
+
+Route::post('/register', 'RegistrationsController@register');
+Route::get('/register', 'RegistrationsController@show')->name('register');
+Route::get('/login', 'SessionsController@show')->name('login');
+Route::post('/login', 'SessionsController@store');
+Route::get('/', 'SessionsController@index')->name('home');
+

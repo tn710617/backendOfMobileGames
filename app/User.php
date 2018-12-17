@@ -2,9 +2,11 @@
 
 namespace App;
 
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Validator;
 
 class User extends Authenticatable
 {
@@ -27,4 +29,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function validation (Array $toBeValidated, Request $request)
+    {
+        $validator = validator::make($request->all(), $toBeValidated);
+        if ($validator->fails())
+        {
+            return $validator->errors();
+        }
+    }
 }
