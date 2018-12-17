@@ -17,11 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/payments', 'PaymentsController@paymentConnect');
 
-Route::post('/register', 'RegistrationsController@register');
-Route::get('/register', 'RegistrationsController@show');
-Route::get('/login', 'SessionsController@show');
-Route::post('/login', 'SessionsController@store');
-Route::post('/login', 'SessionsController@store');
 

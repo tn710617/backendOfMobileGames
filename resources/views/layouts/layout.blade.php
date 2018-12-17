@@ -16,8 +16,8 @@
     <!-- Custom styles for this template -->
     <link href="css/signin.css" rel="stylesheet">
 </head>
-@include('layouts.nav')
 
+@include('layouts.nav')
 <body class="text-center">
 @yield('content')
 @include('layouts.errors')

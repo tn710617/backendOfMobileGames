@@ -2,16 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentsController extends Controller
 {
-    public function paymentConnect ()
+    public function paymentShow (Request $request)
+    {
+
+        return view('payment');
+    }
+
+    public function showOrders (Request $request)
+    {
+        $orders = Payment::where('user_id', auth()->id())->get();
+        return view('order', compact('orders'));
+    }
+
+    public function paymentConnect (Request $request)
 
     {
-/**
-*
-*/
+        $merchantTradeNo = 'Test' . time();
+        $merchantTradeDate = date('Y/m/d H:i:s');
+//        $tradeDescription = $request->tradeDescription;
+        $tradeDescription = 'Energy Points';
+//        $itemName = $request->itemName;
+        $itemName = 'Energy Points';
+        $unitPrice = $request->unitPrice;
+//        $quantity = $request->quantity;
+        $quantity = 1;
+        $amount = $unitPrice * $quantity;
+
+
+        Payment::forceCreate([
+            'user_id' => auth()->id(),
+            'MerchantTradeNo' => $merchantTradeNo,
+            'MerchantTradeDate' => $merchantTradeDate,
+            'TradeDescription' => $tradeDescription,
+            'ItemName' => $itemName,
+            'UnitPrice' => $unitPrice,
+            'Quantity' => $quantity,
+            'Amount' => $amount,
+        ]);
 
     //載入SDK(路徑可依系統規劃自行調整)
     include('AllPay.Payment.Integration.php');
@@ -28,16 +61,16 @@ class PaymentsController extends Controller
 
 
         //基本參數(請依系統規劃自行調整)
-        $obj->Send['ReturnURL']         = 'http://localhost/simple_ServerReplyPaymentStatus.php' ;    //付款完成通知回傳的網址
-        $obj->Send['MerchantTradeNo']   = "Test".time() ;                                   //訂單編號
-        $obj->Send['MerchantTradeDate'] = date('Y/m/d H:i:s');                              //交易時間
-        $obj->Send['TotalAmount']       = 2000;                                             //交易金額
-        $obj->Send['TradeDesc']         = "good to drink" ;                                 //交易描述
+        $obj->Send['ReturnURL']         = 'http://9b56e3c6.ngrok.io/test.php' ;    //付款完成通知回傳的網址
+        $obj->Send['MerchantTradeNo']   = $merchantTradeNo;
+        $obj->Send['MerchantTradeDate'] = $merchantTradeDate;                              //交易時間
+        $obj->Send['TotalAmount']       = $amount;                                             //交易金額
+        $obj->Send['TradeDesc']         = $tradeDescription ;                                 //交易描述
         $obj->Send['ChoosePayment']     = \PaymentMethod::Credit ;                           //付款方式:Credit
 
         //訂單的商品資料
-        array_push($obj->Send['Items'], array('Name' => "歐付寶黑芝麻豆漿", 'Price' => (int)"2000",
-                   'Currency' => "元", 'Quantity' => (int) "1", 'URL' => "dedwed"));
+        array_push($obj->Send['Items'], array('Name' => $itemName, 'Price' => (int)$unitPrice,
+                   'Currency' => "元", 'Quantity' => (int) $quantity, 'URL' => "dedwed"));
 
 
         //Credit信用卡分期付款延伸參數(可依系統需求選擇是否代入)
@@ -82,7 +115,10 @@ class PaymentsController extends Controller
     	echo $e->getMessage();
     }
 
+    }
 
+    public function paymentReceive ()
+    {
 
     }
 }

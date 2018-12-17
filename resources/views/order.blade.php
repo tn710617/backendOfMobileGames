@@ -1,0 +1,29 @@
+@extends('layouts.layout')
+@section('content')
+    @Auth
+        <div>
+            <H1>Here are your Orders</H1>
+        </div>
+        @foreach($orders as $order)
+            <div class="card-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Number: {{ $order->MerchantTradeNo}}</h5>
+                        <p class="card-text">Item: {{ $order->ItemName}}</p>
+                        <p class="card-text">Unit Price: {{ $order->UnitPrice }}</p>
+                        <p class="card-text">
+                            Status: {{ ($order->status == 1)
+                            ? 'Paid'
+                            : 'Not paid yet' }}
+                        <p class="card-text">
+                            <small class="text-muted">Quantity: {{ $order->Quantity }}</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endauth
+    @guest
+        <h1>Please login before any proceeding</h1>
+    @endguest
+@stop

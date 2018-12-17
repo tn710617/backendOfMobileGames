@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('title', 'Register Page')
 @section('content')
 <form class="form-signin col-12"  action="/register" method="POST">
