@@ -11,8 +11,12 @@
                         <h5 class="card-title">Order Number: {{ $order->MerchantTradeNo}}</h5>
                         <p class="card-text">Item: {{ $order->ItemName}}</p>
                         <p class="card-text">Unit Price: {{ $order->UnitPrice }}</p>
+                        @if ($order->Status == 1)
+                            <p class="card-text">Payment Date: {{ $order->PaymentDate }}</p>
+
+                        @endif
                         <p class="card-text">
-                            Status: {{ ($order->status == 1)
+                            Status: {{ ($order->Status == 1)
                             ? 'Paid'
                             : 'Not paid yet' }}
                         <p class="card-text">

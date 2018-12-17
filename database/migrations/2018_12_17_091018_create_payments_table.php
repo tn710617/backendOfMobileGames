@@ -18,6 +18,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('user_id');
             $table->string('MerchantTradeNo');
             $table->dateTime('MerchantTradeDate');
+            $table->dateTime('PaymentDate')->nullable();
             $table->string('TradeDescription');
             $table->string('ItemName');
             $table->integer('UnitPrice');
