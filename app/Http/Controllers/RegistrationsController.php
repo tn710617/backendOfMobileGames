@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\EscapeRoom;
+use App\GifStop;
+use App\LoveLetterGenerator;
+use App\MutualAccomplishment;
 use Illuminate\Http\Request;
 use App\User;
 
@@ -26,6 +30,19 @@ class RegistrationsController extends Controller {
 
         auth()->login($user);
 
+        LoveLetterGenerator::forceCreate([
+            'user_id' => auth()->id(),
+        ]);
+        EscapeRoom::forceCreate([
+            'user_id' => auth()->id(),
+        ]);
+        GifStop::forceCreate([
+            'user_id' => auth()->id(),
+        ]);
+
+        MutualAccomplishment::forceCreate([
+            'user_id' => auth()->id(),
+        ]);
         return redirect()->home();
     }
 
