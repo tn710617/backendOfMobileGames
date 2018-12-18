@@ -35,7 +35,19 @@ class User extends Authenticatable
         $validator = validator::make($request->all(), $toBeValidated);
         if ($validator->fails())
         {
-            return $validator->errors();
+//            return $validator->errors();
+            return $validator->errors()->first();
         }
+    }
+
+    public static function uniqueTokenCreator ()
+    {
+        $checkIfTokenExists = 1;
+        while($checkIfTokenExists)
+        {
+            $uniqueToken = str_random(60);
+            $checkIfTokenExists = User::where('api_token', $uniqueToken)->count();
+        }
+        return $uniqueToken;
     }
 }
