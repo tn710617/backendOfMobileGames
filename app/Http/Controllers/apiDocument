@@ -135,3 +135,11 @@ Point deduction:
 }
 
 如果一次性儲值2000元，解鎖共同成就'You are filthy rich', 會出現在profile頁面
+
+
+{
+    "result": "false",
+    "response": "Required service is not accessible before logging in"
+}
+
+

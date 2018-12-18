@@ -22,3 +22,4 @@ Route::post('/paymentResponse', 'PaymentsController@paymentResponse');
 
 Route::post('/register', 'ApiRegistrationController@register');
 Route::post('/login', 'ApiLoginController@login');
+Route::post('/profile', 'ApiSessionsController@show');

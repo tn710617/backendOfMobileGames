@@ -28,7 +28,7 @@ class ApiLoginController extends Controller
 
         User::where('email', $request->email)->update([
             'api_token' => $token,
-            'expiry_time' => time()+7200,
+            'expiry_time' => time() + 86400,
         ]);
 
         return ['result' => 'true', 'response' => 'You\'ve successfully logged in', 'token' => $token];
