@@ -24,3 +24,4 @@ Route::post('/register', 'ApiRegistrationController@register')->middleware('cont
 Route::post('/login', 'ApiLoginController@login')->middleware('content_length');
 Route::post('/profile', 'ApiSessionsController@show')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/findTheLittleMan', 'MutualAccomplishmentController@findTheLittleMan')->middleware('tokenValidator')->middleware('content_length');
+Route::post('/profile', 'ApiSessionsController@show')->middleware('tokenValidator')->middleware('content_length');

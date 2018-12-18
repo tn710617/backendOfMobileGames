@@ -18,4 +18,8 @@ class MutualAccomplishment extends Model
         return $NumberOfFindingLittleManForEscapeRoom + $NumberOfFindingLittleManForGifStop + $NumberOfFindingLittleManForLoveLetterGenerator;
     }
 
+    public static function whetherAccomplishmentAchieved ($user_id, $column)
+    {
+        return MutualAccomplishment::where('user_id', $user_id)->first()->$column;
+    }
 }
