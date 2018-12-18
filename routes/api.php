@@ -25,3 +25,4 @@ Route::post('/login', 'ApiLoginController@login')->middleware('content_length');
 Route::post('/profile', 'ApiSessionsController@show')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/findTheLittleMan', 'MutualAccomplishmentController@findTheLittleMan')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/profile', 'ApiSessionsController@show')->middleware('tokenValidator')->middleware('content_length');
+Route::post('/deduction', 'PaymentDetailController@deduct')->middleware('tokenValidator')->middleware('content_length');

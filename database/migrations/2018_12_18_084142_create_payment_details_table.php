@@ -16,9 +16,10 @@ class CreatePaymentDetailsTable extends Migration
         Schema::create('payment_details', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->integer('RemainingPoints');
-            $table->integer('add');
-            $table->integer('deduct');
+            $table->integer('remainingPoints');
+            $table->string('game')->nullable();
+            $table->integer('add')->nullable();
+            $table->integer('deduct')->nullable();
             $table->timestamps();
         });
     }

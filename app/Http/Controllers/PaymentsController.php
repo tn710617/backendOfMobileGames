@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Payment;
+use App\PaymentDetail;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PaymentsController extends Controller {
 
@@ -27,12 +29,17 @@ class PaymentsController extends Controller {
         $Payer= Payment::where('MerchantTradeNo', $MerchantTradeNo)->first();
         $Status = $Payer->Status;
         $UserId = $Payer->user_id;
-        $RemainingPoints = User::where('id', $UserId)->first()->RemainingPoints;
+        $RemainingPoints = User::getTotalRemainingPoints($UserId);
 
         if (($RtnCode == 1) && ($Status !== 1))
         {
             Payment::where('MerchantTradeNo', $MerchantTradeNo)->update(['PaymentDate' => $PaymentDate, 'Status' => 1]);
             User::where('id', $UserId)->update(['RemainingPoints' => $RemainingPoints + $PayAmt]);
+            PaymentDetail::forceCreate([
+                'user_id' => $UserId,
+                'add' => $PayAmt,
+                'remainingPoints' => User::getTotalRemainingPoints($UserId),
+            ]);
         }
 
         $myfile = fopen("/Users/ray/code/test/$MerchantTradeNo", "a") or die("Unable to open file!");

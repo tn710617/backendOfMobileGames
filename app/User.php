@@ -50,4 +50,9 @@ class User extends Authenticatable
         }
         return $uniqueToken;
     }
+
+    public static function getTotalRemainingPoints ($user_id)
+    {
+        return User::where('id', $user_id)->first()->RemainingPoints;
+    }
 }
