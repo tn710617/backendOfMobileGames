@@ -4,6 +4,7 @@
         <div>
             <H1>Here are your Orders</H1>
         </div>
+        <div class="card-group-container">
         @foreach($orders as $order)
             <div class="card-group">
                 <div class="card">
@@ -26,6 +27,7 @@
                 </div>
             </div>
         @endforeach
+            </div>
     @endauth
     @guest
         <h1>Please login before any proceeding</h1>

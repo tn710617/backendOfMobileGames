@@ -1,0 +1,137 @@
+Register:
+{
+    "email" : "123@gmail.com.tw",
+    "password":"YourPassword"
+    "password_confirmation":"YourPasswordConfirmation"
+}
+
+
+{
+    "result" : "true",
+    "response":"You’ve successfully registered"
+}
+{
+    "result": "false",
+    "response": "The password field is required."
+}
+{
+    "result": "false",
+    "response": "The email field is required."
+}
+
+{
+    "result": "false",
+    "response": "The email has already been taken."
+}
+
+{
+    "result": "false",
+    "response": "The password must be at least 6 characters."
+}
+
+{
+    "result": "false",
+    "response": "The password confirmation does not match."
+}
+
+
+{
+    "result": "false",
+    "response": "The email must be a valid email address."
+}
+
+Login:
+
+{
+    "email" : "123@gmail.com.tw",
+    "password":"YourPassword"
+}
+
+
+{
+    "result": "true",
+    "response": "You've successfully logged in",
+    "token": "lrADuIHWDOG1i5Ltgp6fL2fu5ThH48LCeCdjWJi9TXb63lIW7DcCNeoNbkwR"
+}
+
+{
+    "result": "false",
+    "response": "Please check your credentials and try again"
+}
+
+{
+    "result": "false",
+    "response": "The password field is required."
+}
+
+Common accomplishment:
+findTheLittleMan:
+River:
+{
+    "token": "yourToken",
+    "game": "escapeRoom"
+    "accomplishment": "findTheLittleMan"
+}
+
+
+FangFang:
+{
+    "token": "yourToken",
+    "game": "loveLetterGenerator"
+    "accomplishment": "findTheLittleMan"
+}
+
+Yu:
+{
+    "token": "yourToken",
+    "game": "gifStop"
+    "accomplishment": "findTheLittleMan"
+}
+
+
+{
+    "result": "true",
+    "response": "You've successfully updated"
+    如果達成成就：
+    只會回傳一次，達成當次
+    "findTheLittleMan":"Congratulations! You've discovered the little man for 20 times"
+}
+
+{
+    "result": "false",
+    "response": "Please make sure the key is correct"
+}
+
+Profile:
+{
+    "token": "yourToken",
+}
+
+{
+    "result": "true",
+    "point": "yourTotalPoints"
+    "commonAccomplishment": ['commonAccomplishment1', 'commonAccomplishment2' ... 'commonAccomplishment?']
+}
+
+{
+    "result": "false",
+    "response": "Make sure the token is correct"
+}
+
+Point deduction:
+{
+    "token": "yourToken",
+}
+
+
+{
+    "result": "true",
+    "response": "remaining point"
+}
+
+{
+    "result": "false",
+    "response": "Your remaining point is not enough"
+}
+
+如果一次性儲值2000元，解鎖共同成就'You are filthy rich', 會出現在profile頁面
