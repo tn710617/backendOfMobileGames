@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/paymentResponse', 'PaymentsController@paymentResponse');
 
-Route::post('/register', 'ApiRegistrationController@register');
-Route::post('/login', 'ApiLoginController@login');
-Route::post('/profile', 'ApiSessionsController@show');
+Route::post('/register', 'ApiRegistrationController@register')->middleware('content_length');
+Route::post('/login', 'ApiLoginController@login')->middleware('content_length');
+Route::post('/profile', 'ApiSessionsController@show')->middleware('tokenValidator')->middleware('content_length');
+Route::post('/findTheLittleMan', 'MutualAccomplishmentController@findTheLittleMan')->middleware('tokenValidator')->middleware('content_length');

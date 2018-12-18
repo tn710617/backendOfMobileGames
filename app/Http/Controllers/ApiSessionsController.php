@@ -6,5 +6,9 @@ use Illuminate\Http\Request;
 
 class ApiSessionsController extends Controller
 {
+    public function show ()
+    {
+
+    }
 
 }
