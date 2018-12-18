@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('api_token')->nullable();
             $table->string('expiry_time')->nullable();
+            $table->integer('RemainingPoints')->nullable()->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

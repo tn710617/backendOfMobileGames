@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Payment;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,10 +24,15 @@ class PaymentsController extends Controller {
         $PaymentType = $_POST['PaymentType'];
         $RtnCode = $_POST['RtnCode'];
         $CheckMacValue = $_POST['CheckMacValue'];
+        $Payer= Payment::where('MerchantTradeNo', $MerchantTradeNo)->first();
+        $Status = $Payer->Status;
+        $UserId = $Payer->user_id;
+        $RemainingPoints = User::where('id', $UserId)->first()->RemainingPoints;
 
-        if ($RtnCode == 1)
+        if (($RtnCode == 1) && ($Status !== 1))
         {
             Payment::where('MerchantTradeNo', $MerchantTradeNo)->update(['PaymentDate' => $PaymentDate, 'Status' => 1]);
+            User::where('id', $UserId)->update(['RemainingPoints' => $RemainingPoints + $PayAmt]);
         }
 
         $myfile = fopen("/Users/ray/code/test/$MerchantTradeNo", "a") or die("Unable to open file!");
@@ -89,8 +95,8 @@ class PaymentsController extends Controller {
 
 
             //基本參數(請依系統規劃自行調整)
-            $obj->Send['ReturnURL'] = 'http://825326a4.ngrok.io/api/paymentResponse';    //付款完成通知回傳的網址
-            $obj->Send['ClientBackURL'] = 'http://825326a4.ngrok.io/';    //付款完成通知回傳的網址
+            $obj->Send['ReturnURL'] = 'http://1a77a175.ngrok.io/api/paymentResponse';    //付款完成通知回傳的網址
+            $obj->Send['ClientBackURL'] = 'http://1a77a175.ngrok.io/';    //付款完成通知回傳的網址
             $obj->Send['MerchantTradeNo'] = $merchantTradeNo;
             $obj->Send['MerchantTradeDate'] = $merchantTradeDate;                              //交易時間
             $obj->Send['TotalAmount'] = $amount;                                             //交易金額
@@ -147,8 +153,4 @@ class PaymentsController extends Controller {
 
     }
 
-    public function paymentReceive()
-    {
-
-    }
 }
