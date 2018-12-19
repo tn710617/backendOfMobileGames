@@ -42,7 +42,9 @@ class PaymentsController extends Controller {
             User::where('id', $UserId)->update(['RemainingPoints' => $RemainingPoints + $PayAmt]);
             PaymentDetail::forceCreate([
                 'user_id' => $UserId,
-                'add' => $PayAmt,
+                'amount' => $PayAmt,
+                'motion' => 'add',
+                'item' => 'deposit',
                 'remainingPoints' => User::getTotalRemainingPoints($UserId),
             ]);
         }
@@ -107,8 +109,8 @@ class PaymentsController extends Controller {
 
 
             //基本參數(請依系統規劃自行調整)
-            $obj->Send['ReturnURL'] = 'http://b8069abb.ngrok.io/paymentResponse';    //付款完成通知回傳的網址
-            $obj->Send['ClientBackURL'] = 'http://1a77a175.ngrok.io/';    //付款完成通知回傳的網址
+            $obj->Send['ReturnURL'] = 'http://b8069abb.ngrok.io/api/paymentResponse';    //付款完成通知回傳的網址
+            $obj->Send['ClientBackURL'] = 'http://b8069abb.ngrok.io/';    //付款完成通知回傳的網址
             $obj->Send['MerchantTradeNo'] = $merchantTradeNo;
             $obj->Send['MerchantTradeDate'] = $merchantTradeDate;                              //交易時間
             $obj->Send['TotalAmount'] = $amount;                                             //交易金額

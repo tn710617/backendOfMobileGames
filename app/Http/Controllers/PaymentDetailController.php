@@ -15,14 +15,16 @@ class PaymentDetailController extends Controller {
         switch ($request->game)
         {
             case 'escapeRoom':
-                if(User::getTotalRemainingPoints($user_id) < 10)
+                if (User::getTotalRemainingPoints($user_id) < 10)
                 {
                     return ['result' => 'false', 'response' => 'Your remaining point is not enough'];
                 }
                 PaymentDetail::forceCreate([
                     'user_id'         => $user_id,
                     'game'            => $request->game,
-                    'deduct'          => 10,
+                    'amount'          => 10,
+                    'motion'          => 'deduct',
+                    'item'            => 'game',
                     'remainingPoints' => User::getTotalRemainingPoints($user_id) - 10,
                 ]);
                 User::where('id', $user_id)->update(['RemainingPoints'
@@ -32,14 +34,16 @@ class PaymentDetailController extends Controller {
                 break;
 
             case 'loveLetterGenerator':
-                if(User::getTotalRemainingPoints($user_id) < 10)
+                if (User::getTotalRemainingPoints($user_id) < 10)
                 {
                     return ['result' => 'false', 'response' => 'Your remaining point is not enough'];
                 }
                 PaymentDetail::forceCreate([
                     'user_id'         => $user_id,
                     'game'            => $request->game,
-                    'deduct'          => 10,
+                    'amount'          => 10,
+                    'motion'          => 'deduct',
+                    'item'            => 'game',
                     'remainingPoints' => User::getTotalRemainingPoints($user_id) - 10,
                 ]);
                 User::where('id', $user_id)->update(['RemainingPoints'
@@ -49,14 +53,16 @@ class PaymentDetailController extends Controller {
                 break;
 
             case 'gifStop':
-                if(User::getTotalRemainingPoints($user_id) < 10)
+                if (User::getTotalRemainingPoints($user_id) < 10)
                 {
                     return ['result' => 'false', 'response' => 'Your remaining point is not enough'];
                 }
                 PaymentDetail::forceCreate([
                     'user_id'         => $user_id,
                     'game'            => $request->game,
-                    'deduct'          => 10,
+                    'amount'          => 10,
+                    'motion'          => 'deduct',
+                    'item'            => 'game',
                     'remainingPoints' => User::getTotalRemainingPoints($user_id) - 10,
                 ]);
                 User::where('id', $user_id)->update(['RemainingPoints'

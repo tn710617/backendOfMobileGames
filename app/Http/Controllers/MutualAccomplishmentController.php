@@ -79,28 +79,27 @@ class MutualAccomplishmentController extends Controller {
         switch ($request->game)
         {
             case 'escapeRoom':
-               EscapeRoom::where('user_id', $user_id)->update(['YouAreSoFast' => 1]);
-               return ['result' => 'true', 'response' => "You've achieved $request->accomplishment"];
+                EscapeRoom::where('user_id', $user_id)->update(['YouAreSoFast' => 1]);
+
+                return ['result' => 'true', 'response' => "You've achieved $request->accomplishment"];
 
                 break;
 
             case 'loveLetterGenerator':
                 LoveLetterGenerator::where('user_id', $user_id)->update(['LuckyYou' => 1]);
+
                 return ['result' => 'true', 'response' => "You've achieved $request->accomplishment"];
 
                 break;
 
             case 'gifStop':
                 GifStop::where('user_id', $user_id)->update(['APerfectScore' => 1]);
+
                 return ['result' => 'true', 'response' => "You've achieved $request->accomplishment"];
 
                 break;
         }
     }
-
-
-
-
 
 
 }

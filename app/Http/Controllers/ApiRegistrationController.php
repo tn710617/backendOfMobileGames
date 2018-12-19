@@ -6,6 +6,7 @@ use App\EscapeRoom;
 use App\GifStop;
 use App\LoveLetterGenerator;
 use App\MutualAccomplishment;
+use App\PaymentDetail;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -38,10 +39,20 @@ class ApiRegistrationController extends Controller
         GifStop::forceCreate([
             'user_id' => $userId,
         ]);
-
         MutualAccomplishment::forceCreate([
             'user_id' => $userId,
         ]);
+
+        User::where('id', $userId)->update(['RemainingPoints' => User::getTotalRemainingPoints($userId) + 500]);
+        PaymentDetail::forceCreate([
+            'user_id' => $userId,
+            'amount' => 500,
+            'motion' => 'add',
+            'item' => 'gift',
+            'remainingPoints' => User::getTotalRemainingPoints($userId),
+        ]);
+
+
 //        return response()->json(['result' => 'true', 'response' => 'You\'ve successfully registered'], 200, ['content-length' => '72']);
         return ['result' => 'true', 'response' => 'You\'ve successfully registered'];
     }

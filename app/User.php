@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return User::where('id', $user_id)->first()->RemainingPoints;
     }
+
+    public static function getUserId ($token)
+    {
+        return User::where('api_token', $token)->first()->id;
+    }
 }
