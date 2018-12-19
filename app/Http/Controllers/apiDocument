@@ -163,3 +163,46 @@ Yu
     "result": "true",
     "response": "You achieve $accomplishment"
 }
+
+商城系統:
+以下為固定物品代碼：
+['viewAll' => 1, 'slowMotion' => 2, '' => 3]
+800px
+以下為購買API
+{
+    "token": "yourToken", "id": 1 (string)
+}
+
+
+{
+    "result": "true",
+    "response": 1
+}
+
+{
+    "result": "false",
+    "response": "Your remaining point is not enough"
+}
+
+
+{
+    "result": "false",
+    "response": "Required service is not accessible before logging in"
+}
+
+以下API可取得所有商品資訊
+River:
+{
+    "token": "yourToken", "game": "escapeRoom"
+}
+
+FangFang
+{
+    "token": "yourToken", "game": "loveLetterGenerator"
+}
+
+Yu
+{
+    "token": "yourToken", "game": "gifStop"
+}
+

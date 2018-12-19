@@ -27,3 +27,6 @@ Route::post('/findTheLittleMan', 'MutualAccomplishmentController@findTheLittleMa
 Route::post('/profile', 'ApiSessionsController@show')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/deduction', 'PaymentDetailController@deduct')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/personalAccomplishment', 'MutualAccomplishmentController@personalAccomplishment')->middleware('tokenValidator')->middleware('content_length');
+Route::post('/items', 'ShopController@show')->middleware('tokenValidator')->middleware('content_length');
+Route::post('/purchase', 'ShopController@update')->middleware('tokenValidator')->middleware('content_length');
+

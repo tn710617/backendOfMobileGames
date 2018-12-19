@@ -2,7 +2,7 @@
 @section('content')
     @Auth
         <div>
-            <H1>Here are your Orders</H1>
+            <H1 class="mb-4">Here are your Orders</H1>
         </div>
         <div class="card-group-container">
         @foreach($orders as $order)

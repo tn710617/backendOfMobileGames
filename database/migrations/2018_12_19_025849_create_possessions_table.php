@@ -16,8 +16,8 @@ class CreatePossessionsTable extends Migration
         Schema::create('possessions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('item');
-            $table->integer('number');
+            $table->string('item')->nullable();
+            $table->integer('number')->default(0);
             $table->timestamps();
         });
     }
