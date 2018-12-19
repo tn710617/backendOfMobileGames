@@ -6,6 +6,7 @@ use App\EscapeRoom;
 use App\GifStop;
 use App\LoveLetterGenerator;
 use App\MutualAccomplishment;
+use App\Possession;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -23,8 +24,13 @@ class ApiSessionsController extends Controller {
         $YouAreFilthyRich = MutualAccomplishment::whetherAccomplishmentAchieved($user_id, 'YouAreFilthyRich');
         $YouAreSoFast = EscapeRoom::where('user_id', $user_id)->first()->YouAreSoFast;
         $APerfectScore = GifStop::where('user_id', $user_id)->first()->APerfectScore;
-        $LuckyYou= LoveLetterGenerator::where('user_id', $user_id)->first()->LuckyYou;
-
+        $LuckyYou = LoveLetterGenerator::where('user_id', $user_id)->first()->LuckyYou;
+        $WhetherPurchasedItemExists = Possession::where('user_id', $user_id)->get();
+        $PurchasedItems = [];
+        foreach ($WhetherPurchasedItemExists as $whetherPurchasedItemExist)
+        {
+            $PurchasedItems[] = $whetherPurchasedItemExist->item;
+        }
         switch ($request->game)
         {
             case 'escapeRoom':
@@ -41,7 +47,10 @@ class ApiSessionsController extends Controller {
                                             'true' : 'false',
                                         'YouAreSoFast'     => ($YouAreSoFast) ?
                                             'true' : 'false',
-                                       ]
+                                       ],
+                                    'PurchasedItems' => ($PurchasedItems) ?
+                                        $PurchasedItems : 'false'
+
                     ]];
 
                 break;
@@ -58,7 +67,7 @@ class ApiSessionsController extends Controller {
                                            'true' : 'false',
                                         'YouAreFilthyRich' => ($YouAreFilthyRich) ?
                                             'true' : 'false',
-                                        'LuckyYou' => ($LuckyYou) ?
+                                        'LuckyYou'         => ($LuckyYou) ?
                                             'true' : 'false',
                                        ]
                     ]];
@@ -77,7 +86,7 @@ class ApiSessionsController extends Controller {
                                            'true' : 'false',
                                         'YouAreFilthyRich' => ($YouAreFilthyRich) ?
                                             'true' : 'false',
-                                        'APerfectScore' => ($APerfectScore) ?
+                                        'APerfectScore'    => ($APerfectScore) ?
                                             'true' : 'false',
                                        ]
                     ]];

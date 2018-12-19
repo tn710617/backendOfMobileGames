@@ -25,7 +25,12 @@ class ShopController extends Controller {
     public function update(Request $request)
     {
         $user_id = User::getUserId($request->token);
-        if (Possession::where('user_id', $user_id)->exists() && Possession::where(Possession::where('user_id', $user_id)->where('item', $request->item)))
+        if (User::getTotalRemainingPoints($user_id) < 100)
+        {
+            return ["result" => "false",
+    "response" => "Your remaining point is not enough"];
+        }
+            if (Possession::where('user_id', $user_id)->where('item', $request->item)->get()->count() > 0)
         {
             return ['result' => 'false', 'response' => 'item has already been purchased'];
         } else
