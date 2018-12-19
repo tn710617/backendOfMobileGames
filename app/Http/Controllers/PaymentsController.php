@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MutualAccomplishment;
 use App\Payment;
 use App\PaymentDetail;
 use App\User;
@@ -33,6 +34,10 @@ class PaymentsController extends Controller {
 
         if (($RtnCode == 1) && ($Status !== 1))
         {
+            if ($PayAmt >= 2000)
+            {
+                MutualAccomplishment::where('user_id', $UserId)->update(['YouAreFilthyRich' => 1]);
+            }
             Payment::where('MerchantTradeNo', $MerchantTradeNo)->update(['PaymentDate' => $PaymentDate, 'Status' => 1]);
             User::where('id', $UserId)->update(['RemainingPoints' => $RemainingPoints + $PayAmt]);
             PaymentDetail::forceCreate([
@@ -102,7 +107,7 @@ class PaymentsController extends Controller {
 
 
             //基本參數(請依系統規劃自行調整)
-            $obj->Send['ReturnURL'] = 'http://1a77a175.ngrok.io/api/paymentResponse';    //付款完成通知回傳的網址
+            $obj->Send['ReturnURL'] = 'http://b8069abb.ngrok.io/paymentResponse';    //付款完成通知回傳的網址
             $obj->Send['ClientBackURL'] = 'http://1a77a175.ngrok.io/';    //付款完成通知回傳的網址
             $obj->Send['MerchantTradeNo'] = $merchantTradeNo;
             $obj->Send['MerchantTradeDate'] = $merchantTradeDate;                              //交易時間

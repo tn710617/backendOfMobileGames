@@ -16,8 +16,9 @@ class CreateGifStopsTable extends Migration
         Schema::create('gif_stops', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->timestamps();
             $table->integer('FindLittleMan')->default(0);
+            $table->integer('APerfectScore')->default(0);
+            $table->timestamps();
         });
     }
     /**

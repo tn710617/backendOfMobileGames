@@ -142,4 +142,24 @@ Point deduction:
     "response": "Required service is not accessible before logging in"
 }
 
+personal accomplishment
+River:
+{
+    "token": "yourToken","game":"escapeRoom", "accomplishment":"YouAreSoFast"
+}
 
+FangFang
+{
+    "token": "yourToken","game":"loveLetterGenerator", "accomplishment":"LuckyYou"
+}
+
+Yu
+{
+    "token": "yourToken","game":"gifStop", "accomplishment":"APerfectScore"
+}
+
+
+{
+    "result": "true",
+    "response": "You achieve $accomplishment"
+}

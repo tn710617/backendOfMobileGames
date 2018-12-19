@@ -17,6 +17,7 @@ class CreateLoveLetterGeneratorsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('FindLittleMan')->default(0);
+            $table->integer('LuckyYou')->default(0);
             $table->timestamps();
         });
     }
