@@ -16,7 +16,7 @@ class ShopController extends Controller {
         $everything = [];
         foreach ($itemDetails as $itemDetail)
         {
-            $everything[$itemDetail->item] = $itemDetail->cost;
+            $everything[$itemDetail->item] = ['cost' => $itemDetail->cost, 'id' => $itemDetail->id];
         }
 
         return ['result' => 'true', 'response' => $everything];
@@ -40,15 +40,18 @@ class ShopController extends Controller {
             $cost = Shop::where('id', $request->item)->first()->cost;
             User::where('id', $user_id)->update(['RemainingPoints' => $currentPoints - $cost]);
             PaymentDetail::forceCreate([
-                'user_id' => $user_id,
-                'game' => $game,
-                'item' => 'purchasing',
-                'amount' => $cost,
-                'motion' => 'deduct',
+                'user_id'         => $user_id,
+                'game'            => $game,
+                'item'            => 'purchasing',
+                'amount'          => $cost,
+                'motion'          => 'deduct',
                 'remainingPoints' => User::getTotalRemainingPoints($user_id),
 
             ]);
-            return ['result' => 'true', 'response' => $request->item];
+
+            return ['result'          => 'true',
+                    'response'        => $request->item,
+                    'remainingPoints' => User::getTotalRemainingPoints($user_id)];
         }
 
 
