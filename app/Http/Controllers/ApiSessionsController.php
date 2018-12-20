@@ -47,8 +47,8 @@ class ApiSessionsController extends Controller {
                                         'YouAreSoFast'     => ($YouAreSoFast) ?
                                             'true' : 'false',
                                        ],
-                                    'PurchasedItems' => ($PurchasedItems) ?
-                                        $PurchasedItems : 'false'
+                                   'PurchasedItems' => ($PurchasedItems) ?
+                                       $PurchasedItems : 'false'
 
                     ]];
 
@@ -67,7 +67,9 @@ class ApiSessionsController extends Controller {
                                             'true' : 'false',
                                         'LuckyYou'         => ($LuckyYou) ?
                                             'true' : 'false',
-                                       ]
+                                       ],
+                                   'PurchasedItems' => ($PurchasedItems) ?
+                                       $PurchasedItems : 'false'
                     ]];
 
                 break;
@@ -85,7 +87,9 @@ class ApiSessionsController extends Controller {
                                             'true' : 'false',
                                         'APerfectScore'    => ($APerfectScore) ?
                                             'true' : 'false',
-                                       ]
+                                       ],
+                                   'PurchasedItems' => ($PurchasedItems) ?
+                                       $PurchasedItems : 'false'
                     ]];
 
                 break;

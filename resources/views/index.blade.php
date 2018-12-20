@@ -2,11 +2,16 @@
 @section('content')
     @if(Auth::check())
         <h1>Please refer to transaction history as follows:</h1>
-            <h2>email: {{ Auth::user()->email }}</h2>
+        <h2>email: {{ Auth::user()->email }}</h2>
         <hr>
-        <ul>
-        @foreach ($details as $detail)
-               <li class="text-left">{{ $detail->created_at->addHour(8) }}, {{$detail->motion}} {{$detail->amount}} points as {{$detail->item}}, and Remaining Points are  {{$detail->remainingPoints}} points </li>
+        <ul class="text-left transactionHistory">
+            @foreach ($details as $detail)
+                <li>
+                    <span
+                        class="category badge badge-{{ ($detail->motion == 'add') ? 'primary' : 'danger' }}"> {{ ($detail->motion == 'add') ? 'Deposit' : 'Consume' }} </span> {{ $detail->created_at->addHour(8) }}
+                    , {{$detail->motion}} <strong>{{$detail->amount}}</strong> points as {{$detail->item}}, and Remaining Points
+                    are <strong>{{$detail->remainingPoints}}</strong> points
+                </li>
             @endforeach
         </ul>
 

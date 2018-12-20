@@ -62,3 +62,16 @@ body {
 {
     margin-right:0;
 }
+.transactionHistory
+{
+    list-style:none;
+}
+.transactionHistory li {
+    line-height: 2rem;
+}
+.category {
+    min-width:80px;
+    vertical-align: text-bottom;
+}
+
+

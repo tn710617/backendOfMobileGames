@@ -16,10 +16,11 @@
                             <p class="card-text">Payment Date: {{ $order->PaymentDate }}</p>
 
                         @endif
-                        <p class="card-text">
-                            Status: {{ ($order->Status == 1)
+                        <h4 class="card-text text-{{($order->Status == 1)?'primary':'danger'}}">
+                            {{ ($order->Status == 1)
                             ? 'Paid'
                             : 'Not paid yet' }}
+                        </h4>
                         <p class="card-text">
                             <small class="text-muted">Quantity: {{ $order->Quantity }}</small>
                         </p>
