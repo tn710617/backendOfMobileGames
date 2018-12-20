@@ -1,9 +1,9 @@
 # 訓練盒挑戰賽 - 戰爭模式
 ## web端儲值平台以及Mobile端遊戲後台
 ### 串接的Mobile遊戲GitHub連結如下：
-https://github.com/ytyubox/GIFStop-goodIdea
-https://github.com/shya008/LoveLetterGenerator
-https://github.com/River9751/EscapeRoom
+- https://github.com/ytyubox/GIFStop-goodIdea
+- https://github.com/shya008/LoveLetterGenerator
+- https://github.com/River9751/EscapeRoom
 
 #### Web版
 - 線上會員系統

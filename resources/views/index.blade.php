@@ -6,7 +6,7 @@
         <hr>
         <ul>
         @foreach ($details as $detail)
-               <li class="text-left">{{ $detail->created_at }}, {{$detail->motion}} {{$detail->amount}} points as {{$detail->item}}, and Remaining Points are  {{$detail->remainingPoints}} points </li>
+               <li class="text-left">{{ $detail->created_at->addHour(8) }}, {{$detail->motion}} {{$detail->amount}} points as {{$detail->item}}, and Remaining Points are  {{$detail->remainingPoints}} points </li>
             @endforeach
         </ul>
 

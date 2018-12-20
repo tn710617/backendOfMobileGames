@@ -34,7 +34,6 @@ class ApiSessionsController extends Controller {
         switch ($request->game)
         {
             case 'escapeRoom':
-                EscapeRoom::where('user_id', $user_id)->update(['YouAreSoFast' => 1]);
 
                 return [
                     'result'   => 'true',
@@ -56,7 +55,6 @@ class ApiSessionsController extends Controller {
                 break;
 
             case 'loveLetterGenerator':
-                LoveLetterGenerator::where('user_id', $user_id)->update(['LuckyYou' => 1]);
 
                 return [
                     'result'   => 'true',
@@ -75,7 +73,6 @@ class ApiSessionsController extends Controller {
                 break;
 
             case 'gifStop':
-                GifStop::where('user_id', $user_id)->update(['APerfectScore' => 1]);
 
                 return [
                     'result'   => 'true',
