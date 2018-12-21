@@ -43,7 +43,7 @@ class ApiRegistrationController extends Controller
             'user_id' => $userId,
         ]);
 
-        User::where('id', $userId)->update(['RemainingPoints' => User::getTotalRemainingPoints($userId) + 500]);
+        User::where('id', $userId)->update(['RemainingPoints' => User::getTotalRemainingPoits($userId) + 500]);
         PaymentDetail::forceCreate([
             'user_id' => $userId,
             'amount' => 500,

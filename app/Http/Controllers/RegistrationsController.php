@@ -21,7 +21,7 @@ class RegistrationsController extends Controller {
     {
         $this->validate(request(), [
             'email'    => 'required|max:255|email|unique:users',
-            'password' => 'required|min:6|max:255'
+            'password' => 'required|min:6|max:255|confirmed'
         ]);
 
         $user = User::forceCreate([
