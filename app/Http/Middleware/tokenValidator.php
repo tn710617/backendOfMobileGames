@@ -21,7 +21,7 @@ class tokenValidator
         ];
         if ($failMessage = User::validation($toBeValidated, $request))
         {
-            return response(['result' => 'false', 'response' => $failMessage]);
+            return User::result(false, $failMessage);
         }
         $receivedToken = $request->token;
         $whetherTokenExists = User::where('api_token', $receivedToken)->count();

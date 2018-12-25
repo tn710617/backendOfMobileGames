@@ -29,4 +29,7 @@ Route::post('/deduction', 'PaymentDetailController@deduct')->middleware('tokenVa
 Route::post('/personalAccomplishment', 'MutualAccomplishmentController@personalAccomplishment')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/items', 'ShopController@show')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/purchase', 'ShopController@update')->middleware('tokenValidator')->middleware('content_length');
+Route::post('/getAchievementList', 'AchievementController@show')->middleware('content_length');
+Route::post('/getItemList', 'ItemController@show')->middleware('content_length');
+Route::post('/achieved', 'achievedController@achieved')->middleware('content_length')->middleware('tokenValidator');
 

@@ -35,7 +35,6 @@ class User extends Authenticatable
         $validator = validator::make($request->all(), $toBeValidated);
         if ($validator->fails())
         {
-//            return $validator->errors();
             return $validator->errors()->first();
         }
     }
@@ -59,5 +58,10 @@ class User extends Authenticatable
     public static function getUserId ($token)
     {
         return User::where('api_token', $token)->first()->id;
+    }
+
+    public static function result ($result, $response)
+    {
+        return ['result' => $result, 'response' => $response];
     }
 }
