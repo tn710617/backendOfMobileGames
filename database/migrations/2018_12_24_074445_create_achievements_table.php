@@ -15,11 +15,11 @@ class CreateAchievementsTable extends Migration
     {
         Schema::create('achievements', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('achievement');
+            $table->string('name');
             $table->integer('game_id');
             $table->integer('type_id');
             $table->integer('number');
-            $table->integer('common_achievement_id');
+            $table->integer('mutual_achievement_id')->default(null)->nullable();
             $table->timestamps();
         });
     }

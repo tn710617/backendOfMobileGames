@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -63,5 +64,13 @@ class User extends Authenticatable
     public static function result ($result, $response)
     {
         return ['result' => $result, 'response' => $response];
+    }
+
+    public static function whetherExists(Model $model, $request)
+    {
+        $id = substr(strtolower(get_class($model)) . '_id', 4);
+        return $model::where('user_id', User::getUserId($request->token))
+                ->where($id, $request->$id)
+                ->count() > 0;
     }
 }

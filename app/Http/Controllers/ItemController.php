@@ -16,9 +16,9 @@ class ItemController extends Controller {
 
         if ($failMessage = User::validation($toBeValidated, $request))
         {
-            return User::result(false, $failMessage);
+           return User::result(false, $failMessage);
         }
-        $data = Item::where('game_id', $request->game_id)->select('id', 'item', 'cost')->get();
+        $data = Item::where('game_id', $request->game_id)->select('id', 'name', 'cost')->get();
 
         return User::result(true, $data);
     }

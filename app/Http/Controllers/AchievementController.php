@@ -18,7 +18,7 @@ class AchievementController extends Controller {
             return User::result(false, $failMessage);
         }
 
-        $data = Achievement::where('game_id', $request->game_id)->select('id', 'achievement')->get();
+        $data = Achievement::where('game_id', $request->game_id)->select('id', 'name')->get();
 
         return User::result(true, $data);
     }

@@ -11,9 +11,6 @@ class Purchased extends Model
         switch ($type) {
             case 'one-time':
 
-
-
-
                 break;
 
             case 'aggregatable':

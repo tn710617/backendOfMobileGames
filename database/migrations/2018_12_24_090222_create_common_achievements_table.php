@@ -15,7 +15,7 @@ class CreateCommonAchievementsTable extends Migration
     {
         Schema::create('common_achievements', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('common_achievement');
+            $table->string('name');
             $table->integer('type_id');
             $table->integer('mutual_achievement_id');
             $table->integer('number');

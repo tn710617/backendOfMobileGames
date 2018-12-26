@@ -15,10 +15,11 @@ class CreateCommonlyAchievedsTable extends Migration
     {
         Schema::create('commonly_achieveds', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
             $table->integer('common_achievement_id');
-            $table->integer('mutual_achievement_id');
-            $table->integer('number');
-            $table->boolean('status');
+            $table->integer('mutual_achievement_id')->nullable()->default(null);
+            $table->integer('number')->default(0);
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }
