@@ -66,11 +66,4 @@ class User extends Authenticatable
         return ['result' => $result, 'response' => $response];
     }
 
-    public static function whetherExists(Model $model, $request)
-    {
-        $id = substr(strtolower(get_class($model)) . '_id', 4);
-        return $model::where('user_id', User::getUserId($request->token))
-                ->where($id, $request->$id)
-                ->count() > 0;
-    }
 }

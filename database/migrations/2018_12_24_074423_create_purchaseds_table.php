@@ -18,7 +18,7 @@ class CreatePurchasedsTable extends Migration
             $table->integer('user_id');
             $table->integer('item_id');
             $table->integer('number');
-            $table->boolean('status');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

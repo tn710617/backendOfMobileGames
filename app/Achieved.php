@@ -28,9 +28,9 @@ class Achieved extends Model {
         {
             case 'one-time':
 
-                if (!Achieved::whetherAchievementAchieved($request))
+                if (!Helpers::whetherExists(new self(), new Achievement(), $request))
                 {
-                    Achieved::recordOneTimeAchievedAchievement($request);
+                    Helpers::recordOneTimeStuff(new self(), new Achievement(), $request);
 
                     return User::result(true, Achievement::getAchievementName($request->achievement_id)
                         . ' has been achieved');
@@ -42,9 +42,9 @@ class Achieved extends Model {
 
             case 'aggregatable':
                 // If called achievement hasn't been achieved yet
-                if (!Achieved::whetherAchievementAchieved($request))
+                if (!Helpers::whetherExists(new Achieved(), new Achievement(), $request))
                 {
-                    Achieved::recordOneTimeAchievedAchievement($request);
+                    Helpers::recordOneTimeStuff(new Achieved, new Achievement(), $request);
 
                     return User::result(true, Achievement::getAchievementName($request->achievement_id) . ' has been achieved');
                 }
@@ -67,24 +67,6 @@ class Achieved extends Model {
                 return User::result(true, Achievement::getAchievementName($request->achievement_id) . ' has been achieved');
                 break;
         }
-    }
-
-
-    public static function whetherAchievementAchieved($request)
-    {
-        return Achieved::where('user_id', User::getUserId($request->token))
-                ->where('achievement_id', $request->achievement_id)
-                ->count() > 0;
-    }
-
-    public static function recordOneTimeAchievedAchievement($request)
-    {
-        Achieved::forceCreate([
-            'user_id'        => User::getUserId($request->token),
-            'number'         => 1,
-            'achievement_id' => $request->achievement_id,
-            'status'         => 1,
-        ]);
     }
 
     public static function updateNumberOfPersonalAchievement($request)

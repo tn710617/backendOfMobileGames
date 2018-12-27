@@ -32,4 +32,5 @@ Route::post('/purchase', 'ShopController@update')->middleware('tokenValidator')-
 Route::post('/getAchievementList', 'AchievementController@show')->middleware('content_length');
 Route::post('/getItemList', 'ItemController@show')->middleware('content_length');
 Route::post('/achieved', 'achievedController@achieved')->middleware('content_length')->middleware('tokenValidator');
+Route::post('/purchased', 'PurchasedController@purchased')->middleware('content_length')->middleware('tokenValidator');
 
