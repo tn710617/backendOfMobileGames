@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Item extends Model
 {
@@ -15,4 +16,7 @@ class Item extends Model
     {
         return Item::find($item_id)->name;
     }
+
+
+
 }

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class ItemController extends Controller {
 
+
     public function show(Request $request)
     {
         $toBeValidated = [
@@ -22,4 +23,6 @@ class ItemController extends Controller {
 
         return User::result(true, $data);
     }
+
+
 }

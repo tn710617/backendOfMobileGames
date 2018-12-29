@@ -46,13 +46,27 @@ class Purchased extends Model {
 
     public static function use(Request $request)
     {
-        if (Type::getType(new Item, $request->item_id) !== 'aggregatable')
+        if (Type::getType(new Item, $request) !== 'aggregatable')
         {
-            User::result('false', 'invalid operation');
+            return User::result('false', 'invalid operation');
+        }
+        if (Purchased::getItemNumber($request) < $request->number)
+        {
+            return User::result('false', 'Required quantity is not enough');
         }
 
-        return '123';
+        Purchased::updateAggregatableStuff($request);
+        $hasOrHave = Helpers::switchHasBetweenSingularAndPlural($request->number);
+        return User::result(true, Item::getItemName($request->item_id) . ' * ' . $request->number
+            . " $hasOrHave been used");
 
+    }
+
+    public static function getItemNumber($request)
+    {
+        return Purchased::where('user_id', User::getUserId($request->token))
+            ->where('item_id', $request->item_id)
+            ->first()->number;
     }
 
     public static function recordAggregatableStuff($request)
@@ -66,15 +80,15 @@ class Purchased extends Model {
 
     public static function updateAggregatableStuff($request)
     {
+        $type = substr($_SERVER['REQUEST_URI'], 5);
+
         $purchased = (new Purchased())->where('user_id', User::getUserId($request->token))
             ->where('item_id', $request->item_id)->first();
 
         return $purchased->where('user_id', User::getUserId($request->token))
             ->where('item_id', $request->item_id)
-            ->update([
-                'user_id' => User::getUserId($request->token),
-                'item_id' => $request->item_id,
-                'number'  => $purchased->number + $request->number,
-            ]);
+            ->update(['number' => ($type == 'use')
+                ? ($purchased->number - $request->number)
+                : ($purchased->number + $request->number)]);
     }
 }

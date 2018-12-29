@@ -16,4 +16,10 @@ class PurchasedController extends Controller {
         return Purchased::executeByType($request, $type);
     }
 
+
+    public function use(Request $request)
+    {
+        return Purchased::use($request);
+    }
+
 }

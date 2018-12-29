@@ -33,4 +33,5 @@ Route::post('/getAchievementList', 'AchievementController@show')->middleware('co
 Route::post('/getItemList', 'ItemController@show')->middleware('content_length');
 Route::post('/achieved', 'achievedController@achieved')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/purchased', 'PurchasedController@purchased')->middleware('content_length')->middleware('tokenValidator');
+Route::post('/use', 'PurchasedController@use')->middleware('content_length')->middleware('tokenValidator');
 
