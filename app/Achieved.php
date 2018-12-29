@@ -32,11 +32,11 @@ class Achieved extends Model {
                 {
                     Helpers::recordOneTimeStuff(new self(), new Achievement(), $request);
 
-                    return User::result(true, Achievement::getAchievementName($request->achievement_id)
+                    return Helpers::result(true, Achievement::getAchievementName($request->achievement_id)
                         . ' has been achieved');
                 }
 
-                return User::result(false, Achievement::getAchievementName($request->achievement_id)
+                return Helpers::result(false, Achievement::getAchievementName($request->achievement_id)
                     . ' was already achieved');
                 break;
 
@@ -46,7 +46,7 @@ class Achieved extends Model {
                 {
                     Helpers::recordOneTimeStuff(new Achieved, new Achievement(), $request);
 
-                    return User::result(true, Achievement::getAchievementName($request->achievement_id) . ' has been achieved');
+                    return Helpers::result(true, Achievement::getAchievementName($request->achievement_id) . ' has been achieved');
                 }
 
                 Achieved::updateNumberOfPersonalAchievement($request);
@@ -64,7 +64,7 @@ class Achieved extends Model {
 
                 }
 
-                return User::result(true, Achievement::getAchievementName($request->achievement_id) . ' has been achieved');
+                return Helpers::result(true, Achievement::getAchievementName($request->achievement_id) . ' has been achieved');
                 break;
         }
     }

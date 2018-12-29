@@ -31,39 +31,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public static function validation (Array $toBeValidated, Request $request)
-    {
-        $validator = validator::make($request->all(), $toBeValidated);
-        if ($validator->fails())
-        {
-            return $validator->errors()->first();
-        }
-    }
-
-    public static function uniqueTokenCreator ()
-    {
-        $checkIfTokenExists = 1;
-        while($checkIfTokenExists)
-        {
-            $uniqueToken = str_random(60);
-            $checkIfTokenExists = User::where('api_token', $uniqueToken)->count();
-        }
-        return $uniqueToken;
-    }
-
     public static function getTotalRemainingPoints ($user_id)
     {
-        return User::where('id', $user_id)->first()->RemainingPoints;
+        return User::where('id', $user_id)->first()->remainingPoints;
     }
 
     public static function getUserId ($token)
     {
         return User::where('api_token', $token)->first()->id;
-    }
-
-    public static function result ($result, $response)
-    {
-        return ['result' => $result, 'response' => $response];
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers;
 use App\Item;
 use App\User;
 use Illuminate\Http\Request;
@@ -15,13 +16,13 @@ class ItemController extends Controller {
             'game_id' => 'required'
         ];
 
-        if ($failMessage = User::validation($toBeValidated, $request))
+        if ($failMessage = Helpers::validation($toBeValidated, $request))
         {
-           return User::result(false, $failMessage);
+           return Helpers::result(false, $failMessage);
         }
         $data = Item::where('game_id', $request->game_id)->select('id', 'name', 'cost')->get();
 
-        return User::result(true, $data);
+        return Helpers::result(true, $data);
     }
 
 

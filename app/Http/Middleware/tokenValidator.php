@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers;
 use App\User;
 use Closure;
 
@@ -19,9 +20,9 @@ class tokenValidator
         $toBeValidated = [
             'token' => 'required'
         ];
-        if ($failMessage = User::validation($toBeValidated, $request))
+        if ($failMessage = Helpers::validation($toBeValidated, $request))
         {
-            return User::result(false, $failMessage);
+            return Helpers::result(false, $failMessage);
         }
         $receivedToken = $request->token;
         $whetherTokenExists = User::where('api_token', $receivedToken)->count();

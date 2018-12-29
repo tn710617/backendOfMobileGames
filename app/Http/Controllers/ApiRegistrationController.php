@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\EscapeRoom;
 use App\GifStop;
+use App\Helpers;
 use App\LoveLetterGenerator;
 use App\MutualAccomplishment;
 use App\PaymentDetail;
@@ -19,7 +20,7 @@ class ApiRegistrationController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed|max:255'
         ];
-        if ($failMessage = User::validation($toBeValidated, $request))
+        if ($failMessage = Helpers::validation($toBeValidated, $request))
         {
             return ['result' => 'false', 'response' => $failMessage];
         }

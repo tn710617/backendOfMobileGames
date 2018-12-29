@@ -6,6 +6,7 @@ use App\EscapeRoom;
 use App\GifStop;
 use App\LoveLetterGenerator;
 use App\MutualAccomplishment;
+use App\PaymentCategory;
 use App\PaymentDetail;
 use Illuminate\Http\Request;
 use App\User;
@@ -26,33 +27,13 @@ class RegistrationsController extends Controller {
 
         $user = User::forceCreate([
             'email' => $request->email,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'remainingPoints' => 500,
         ]);
 
         auth()->login($user);
 
-        LoveLetterGenerator::forceCreate([
-            'user_id' => auth()->id(),
-        ]);
-        EscapeRoom::forceCreate([
-            'user_id' => auth()->id(),
-        ]);
-        GifStop::forceCreate([
-            'user_id' => auth()->id(),
-        ]);
-
-        MutualAccomplishment::forceCreate([
-            'user_id' => auth()->id(),
-        ]);
-
-        User::where('id', auth()->id())->update(['RemainingPoints' => User::getTotalRemainingPoints(auth()->id()) + 500]);
-        PaymentDetail::forceCreate([
-            'user_id' => auth()->id(),
-            'amount' => 500,
-            'motion' => 'add',
-            'item' => 'gift',
-            'remainingPoints' => User::getTotalRemainingPoints(auth()->id()),
-        ]);
+        PaymentDetail::record(auth()->id(), 'deposit', 'gift', 500, '');
 
         return redirect()->home();
     }

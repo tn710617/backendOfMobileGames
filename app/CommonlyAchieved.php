@@ -51,7 +51,7 @@ class CommonlyAchieved extends Model
         }
         if ($isCommonAchievementAchieved)
         {
-            return User::result(true, $response);
+            return Helpers::result(true, $response);
         }
     }
 }

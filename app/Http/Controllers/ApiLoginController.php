@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class ApiLoginController extends Controller
             'email' => 'required|email|max:255',
             'password' => 'required|string|max:255'
         ];
-        if ($failMessage = User::validation($toBeValidated, $request))
+        if ($failMessage = Helpers::validation($toBeValidated, $request))
         {
             return ['result' => 'false', 'response' => $failMessage];
         }
@@ -24,7 +25,7 @@ class ApiLoginController extends Controller
             return ['result' => 'false', 'response' => 'Please check your credentials again'];
         }
 
-        $token = User::uniqueTokenCreator();
+        $token = Helpers::uniqueTokenCreator();
 
         User::where('email', $request->email)->update([
             'api_token' => $token,
