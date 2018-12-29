@@ -22,4 +22,8 @@ class PurchasedController extends Controller {
         return Purchased::use($request);
     }
 
+    public function possessions(Request $request)
+    {
+        return Purchased::getPossessedItems($request);
+    }
 }

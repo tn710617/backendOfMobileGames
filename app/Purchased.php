@@ -48,11 +48,11 @@ class Purchased extends Model {
     {
         if (Type::getType(new Item, $request) !== 'aggregatable')
         {
-            return User::result('false', 'invalid operation');
+            return User::result(false, 'invalid operation');
         }
         if (Purchased::getItemNumber($request) < $request->number)
         {
-            return User::result('false', 'Required quantity is not enough');
+            return User::result(false, 'Required quantity is not enough');
         }
 
         Purchased::updateAggregatableStuff($request);
@@ -91,4 +91,18 @@ class Purchased extends Model {
                 ? ($purchased->number - $request->number)
                 : ($purchased->number + $request->number)]);
     }
+
+    public static function getPossessedItems($request)
+    {
+        $response = [];
+        $possessions = (new Purchased())->where('user_id', User::getUserId($request->token))
+            ->get();
+        foreach ($possessions as $possession)
+        {
+            $type = Item::find($possession->item_id)->type->name;
+                $response[$type] = $possession->only('item_id', 'number');
+        }
+        return User::result(true, $response);
+    }
+
 }
