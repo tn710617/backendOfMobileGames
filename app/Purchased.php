@@ -130,10 +130,18 @@ class Purchased extends Model {
         foreach ($possessions as $possession)
         {
             $type = Item::find($possession->item_id)->type->name;
-            $response[$type] = $possession->only('item_id', 'number');
+            if(Item::find($possession->item_id)->game_id == $request->game_id)
+            {
+                if($type == 'one-time')
+                {
+                    $response[$type]['item_id'][] = $possession->item_id;
+                    continue;
+                }
+                $response[$type] = $possession->only('item_id', 'number');
+            }
         }
 
-        return Helpers::result(true, $response);
+        return $response;
     }
 
 }

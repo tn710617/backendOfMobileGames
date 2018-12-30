@@ -8,7 +8,7 @@
             @foreach ($details as $detail)
                 <li>
                     <span
-                        class="category badge badge-{{ ($detail->motion == 'add') ? 'primary' : 'danger' }}"> {{ ($detail->motion == 'add') ? 'Deposit' : 'Consume' }} </span> {{ $detail->created_at->addHour(8) }}
+                        class="category badge badge-{{ ($detail->motion == 'deposit') ? 'primary' : 'danger' }}"> {{ ($detail->motion == 'deposit') ? 'Deposit' : 'Consume' }} </span> {{ $detail->created_at->addHour(8) }}
                     , {{$detail->motion}} <strong>{{$detail->amount}}</strong> points as {{$detail->item}}, and Remaining Points
                     are <strong>{{$detail->remainingPoints}}</strong> points
                 </li>

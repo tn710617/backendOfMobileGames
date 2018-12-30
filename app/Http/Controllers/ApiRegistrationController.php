@@ -22,7 +22,7 @@ class ApiRegistrationController extends Controller
         ];
         if ($failMessage = Helpers::validation($toBeValidated, $request))
         {
-            return ['result' => 'false', 'response' => $failMessage];
+            return Helpers::result(false, $failMessage);
         }
 
         User::forceCreate([
@@ -30,31 +30,10 @@ class ApiRegistrationController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        $userId = User::where('email', $request->email)->first()->id;
-        LoveLetterGenerator::forceCreate([
-            'user_id' => $userId,
-        ]);
-        EscapeRoom::forceCreate([
-            'user_id' => $userId,
-        ]);
-        GifStop::forceCreate([
-            'user_id' => $userId,
-        ]);
-        MutualAccomplishment::forceCreate([
-            'user_id' => $userId,
-        ]);
+        $user_id = User::where('email', $request->email)->get()[0]->id;
 
-        User::where('id', $userId)->update(['RemainingPoints' => User::getTotalRemainingPoits($userId) + 500]);
-        PaymentDetail::forceCreate([
-            'user_id' => $userId,
-            'amount' => 500,
-            'motion' => 'add',
-            'item' => 'gift',
-            'remainingPoints' => User::getTotalRemainingPoints($userId),
-        ]);
+        PaymentDetail::record($user_id, 'deposit', 'gift', 500, '');
 
-
-//        return response()->json(['result' => 'true', 'response' => 'You\'ve successfully registered'], 200, ['content-length' => '72']);
-        return ['result' => 'true', 'response' => 'You\'ve successfully registered'];
+        return Helpers::result(true, 'You\'ve successfully registered');
     }
 }

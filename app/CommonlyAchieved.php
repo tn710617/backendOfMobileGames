@@ -8,6 +8,7 @@ class CommonlyAchieved extends Model
 {
     protected $fillable = [
         'number',
+        'status'
     ];
     //
     public static function createCommonAchievementRecords($commonAchievementsWithTheSameMutualAchievementId, $request)
@@ -51,7 +52,7 @@ class CommonlyAchieved extends Model
         }
         if ($isCommonAchievementAchieved)
         {
-            return Helpers::result(true, $response);
+            return $response;
         }
     }
 }

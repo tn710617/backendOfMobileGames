@@ -9,10 +9,16 @@ use Illuminate\Http\Request;
 
 class AchievedController extends Controller {
 
-    public function achieved(Request $request)
+    public function achieve(Request $request)
     {
         $type = Type::getType(new Achievement, $request);
 
         return Achieved::executeByType($request, $type);
     }
+
+    public function showAchieved(Request $request)
+    {
+        return Achieved::getAchieved($request);
+    }
+
 }

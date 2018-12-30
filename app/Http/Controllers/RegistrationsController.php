@@ -28,7 +28,6 @@ class RegistrationsController extends Controller {
         $user = User::forceCreate([
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'remainingPoints' => 500,
         ]);
 
         auth()->login($user);

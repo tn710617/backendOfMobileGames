@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers;
 use App\Item;
 use App\Purchased;
 use App\Type;
@@ -24,6 +25,8 @@ class PurchasedController extends Controller {
 
     public function possessions(Request $request)
     {
-        return Purchased::getPossessedItems($request);
+        $response = Purchased::getPossessedItems($request);
+
+        return Helpers::result(true, $response);
     }
 }

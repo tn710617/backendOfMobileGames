@@ -60,7 +60,11 @@ class Achieved extends Model {
                         CommonlyAchieved::createCommonAchievementRecords($commonAchievementsWithTheSameMutualAchievementId, $request);
                     }
 
-                    CommonlyAchieved::countAndReturnWhenCommonAchievementAchieved($request);
+                     $response = CommonlyAchieved::countAndReturnWhenCommonAchievementAchieved($request);
+                    if($response)
+                    {
+                        return Helpers::result(true, $response);
+                    }
 
                 }
 
@@ -80,6 +84,44 @@ class Achieved extends Model {
     public static function whetherMutualAchievementEverInserted($request)
     {
         return CommonlyAchieved::where('user_id', User::getUserId($request->token))->where('mutual_achievement_id', Achievement::getMutualAchievementNumber($request))->count();
+    }
+
+    public static function getAchieved($request)
+    {
+        $response = [];
+        $achieveds = (new Achieved())->where('user_id', User::getUserId($request->token))
+            ->get();
+        foreach ($achieveds as $achieved)
+        {
+            $type = Achievement::find($achieved->achievement_id)->type->name;
+            if(Achievement::find($achieved->achievement_id)->game_id == $request->game_id)
+            {
+                if($type == 'one-time')
+                {
+                    $response[$type]['achievement_id'][] = $achieved->achievement_id;
+                    continue;
+                }
+                $response[$type][] = $achieved->only('achievement_id', 'number');
+            }
+        }
+        $commonlyAchieveds = (new CommonlyAchieved())->where('user_id', User::getUserId($request->token))
+            ->get();
+
+        foreach ($commonlyAchieveds as $commonlyAchieved)
+        {
+            $type = CommonAchievement::find($commonlyAchieved->common_achievement_id)->type->name;
+            if ($commonlyAchieved->status == 1)
+            {
+                if($type == 'one-time')
+                {
+                    $response[$type]['common_achievement'][] = $commonlyAchieved->common_achievement_id;
+                    continue;
+                }
+                $response[$type][] = $commonlyAchieved->only('common_achievement_id', 'number');
+            }
+        }
+
+        return $response;
     }
 
 }
