@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\EscapeRoom;
-use App\GifStop;
-use App\LoveLetterGenerator;
-use App\MutualAccomplishment;
-use App\Possession;
+use App\Achieved;
+use App\Helpers;
 use App\Purchased;
 use App\User;
 use Illuminate\Http\Request;
@@ -15,7 +12,18 @@ class ApiSessionsController extends Controller {
 
     public function show(Request $request)
     {
-        return (Purchased::where('user_id', User::getUserId($request->token))->get());
+        $user = (new User())->find(User::getUserId($request->token));
+        $remainingPoints = $user->remainingPoints;
+        $email = $user->email;
+        $achievedAchievement = Achieved::getAchieved($request);
+        $possessions = Purchased::getPossessedItems($request);
+        $response = ['email'               => $email,
+                     'remainingPoints'     => $remainingPoints,
+                     'achievedAchievement' => $achievedAchievement,
+                     'possessions'         => $possessions,
+        ];
+
+        return Helpers::result(true, $response);
 
 
 

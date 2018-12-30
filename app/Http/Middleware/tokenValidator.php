@@ -22,7 +22,7 @@ class tokenValidator
         ];
         if ($failMessage = Helpers::validation($toBeValidated, $request))
         {
-            return Helpers::result(false, $failMessage);
+            return response(Helpers::result(false, $failMessage));
         }
         $receivedToken = $request->token;
         $whetherTokenExists = User::where('api_token', $receivedToken)->count();
