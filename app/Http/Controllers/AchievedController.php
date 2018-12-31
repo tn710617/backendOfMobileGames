@@ -24,6 +24,7 @@ class AchievedController extends Controller {
         {
             return Helpers::result(false, 'Invalid Achievement_id');
         }
+
         $type = Type::getType(new Achievement, $request);
 
         return Achieved::executeByType($request, $type);

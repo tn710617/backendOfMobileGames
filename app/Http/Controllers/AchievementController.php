@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Achievement;
+use App\Game;
 use App\Helpers;
 use App\User;
 use Illuminate\Http\Request;
@@ -19,8 +20,19 @@ class AchievementController extends Controller {
             return Helpers::result(false, $failMessage);
         }
 
-        $data = Achievement::where('game_id', $request->game_id)->select('id', 'name')->get();
+        if(Helpers::whetherIDExists($request->game_id, new Game()) === false)
+        {
+            return Helpers::result(false, 'Invalid game_id');
+        }
 
-        return Helpers::result(true, $data);
+        $response = [];
+        $datas = Achievement::where('game_id', $request->game_id)->get();
+        foreach($datas as $data)
+        {
+            $type = $data->type->name;
+            $response[$type][] = $data->only('id', 'name');
+        }
+
+        return Helpers::result(true, $response);
     }
 }

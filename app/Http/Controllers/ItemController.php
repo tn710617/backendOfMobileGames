@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Game;
 use App\Helpers;
 use App\Item;
 use App\User;
@@ -20,9 +21,25 @@ class ItemController extends Controller {
         {
            return Helpers::result(false, $failMessage);
         }
-        $data = Item::where('game_id', $request->game_id)->select('id', 'name', 'cost')->get();
 
-        return Helpers::result(true, $data);
+        if(Helpers::whetherIDExists($request->game_id, new Game()) === false)
+        {
+            return Helpers::result(false, 'Invalid game_id');
+        }
+
+        $response = [];
+
+        $datas = Item::where('game_id', $request->game_id)->get();
+        foreach($datas as $data)
+        {
+            $type = $data->type->name;
+            $response[$type][] = $data->only('id', 'name', 'cost');
+        }
+
+        return Helpers::result(true, $response);
+
+
+
     }
 
 

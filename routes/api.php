@@ -28,11 +28,11 @@ Route::post('/profile', 'ApiSessionsController@show')->middleware('tokenValidato
 Route::post('/deduction', 'PaymentDetailController@deduct')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/personalAccomplishment', 'MutualAccomplishmentController@personalAccomplishment')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/items', 'ShopController@show')->middleware('tokenValidator')->middleware('content_length');
-Route::post('/purchase', 'ShopController@update')->middleware('tokenValidator')->middleware('content_length');
+//Route::post('/purchase', 'ShopController@update')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/getAchievementList', 'AchievementController@show')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/getItemList', 'ItemController@show')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/achieve', 'achievedController@achieve')->middleware('content_length')->middleware('tokenValidator');
-Route::post('/purchased', 'PurchasedController@purchased')->middleware('content_length')->middleware('tokenValidator');
+Route::post('/purchase', 'PurchasedController@purchased')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/use', 'PurchasedController@use')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/possessions', 'PurchasedController@possessions')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/play', 'GameController@play')->middleware('content_length')->middleware('tokenValidator');

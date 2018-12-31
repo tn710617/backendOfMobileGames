@@ -115,7 +115,7 @@ class Achieved extends Model {
             {
                 if($type == 'one-time')
                 {
-                    $response[$type]['common_achievement'][] = $commonlyAchieved->common_achievement_id;
+                    $response[$type]['common_achievement_id'][] = $commonlyAchieved->common_achievement_id;
                     continue;
                 }
                 $response[$type][] = $commonlyAchieved->only('common_achievement_id', 'number');

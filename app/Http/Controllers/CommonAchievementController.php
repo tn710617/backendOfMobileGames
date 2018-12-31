@@ -14,7 +14,8 @@ class CommonAchievementController extends Controller
         $response = [];
         foreach ($datas as $data)
         {
-            $response[] = $data->only(['id', 'name']);
+            $type = $data->type->name;
+            $response[$type][] = $data->only(['id', 'name']);
         }
 
         return Helpers::result(true, $response);
