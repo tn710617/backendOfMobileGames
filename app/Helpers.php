@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Validator;
 
 class Helpers {
 
+    public static function whetherIDExists($id, Model $model)
+    {
+        if($model::where('id', $id)->count() < 1)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public static function whetherExists(Model $model1, Model $model2, $request)
     {
         $id = substr(strtolower(get_class($model2)) . '_id', 4);

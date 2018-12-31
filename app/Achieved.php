@@ -24,6 +24,7 @@ class Achieved extends Model {
 
     public static function executeByType($request, $type)
     {
+
         switch ($type)
         {
             case 'one-time':

@@ -17,12 +17,12 @@ class ApiLoginController extends Controller
         ];
         if ($failMessage = Helpers::validation($toBeValidated, $request))
         {
-            return ['result' => 'false', 'response' => $failMessage];
+            return Helpers::result(false, $failMessage);
         }
 
         if (!auth::attempt(request(['email', 'password'])))
         {
-            return ['result' => 'false', 'response' => 'Please check your credentials again'];
+            return Helpers::result(false, 'Please check your credentials again');
         }
 
         $token = Helpers::uniqueTokenCreator();
@@ -32,7 +32,7 @@ class ApiLoginController extends Controller
             'expiry_time' => time() + 86400,
         ]);
 
-        return ['result' => 'true', 'response' => 'You\'ve successfully logged in', 'token' => $token];
+        return Helpers::result(true, $token);
     }
 
 }

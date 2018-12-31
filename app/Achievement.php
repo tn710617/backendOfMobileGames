@@ -26,4 +26,5 @@ class Achievement extends Model
     {
         return Achievement::find($achievement_id)->name;
     }
+
 }
