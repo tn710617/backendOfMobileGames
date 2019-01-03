@@ -1,19 +1,17 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Helpers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class ApiLoginController extends Controller
 {
     public function login (Request $request)
     {
         $toBeValidated = [
             'email' => 'required|email|max:255',
-            'password' => 'required|string|max:255'
+            'password' => 'required|string|max:255',
         ];
         if ($failMessage = Helpers::validation($toBeValidated, $request))
         {

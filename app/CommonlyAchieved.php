@@ -55,4 +55,31 @@ class CommonlyAchieved extends Model
             return $response;
         }
     }
+
+    public static function achieveDepositAchievement($amountOfDepositing, $user_id)
+    {
+        $commonAchievementsOfDepositing = CommonAchievement::where('mutual_achievement_id', 99)->get();
+        foreach ($commonAchievementsOfDepositing as $commonAchievementOfDepositing)
+        {
+            if ($commonAchievementOfDepositing->number <= $amountOfDepositing)
+            {
+                $whetherCommonAchievementExists = CommonlyAchieved::where('user_id', $user_id)->where('common_achievement_id', $commonAchievementOfDepositing->id)->count();
+                if ($whetherCommonAchievementExists == 0)
+                {
+                    CommonlyAchieved::forceCreate([
+                        'user_id' => $user_id,
+                        'common_achievement_id' => $commonAchievementOfDepositing->id,
+                        'mutual_achievement_id' => 99,
+                        'number' => $commonAchievementOfDepositing->number,
+                        'status' => 1,
+                    ]);
+                }
+
+            }
+        }
+    }
 }
+
+
+
+

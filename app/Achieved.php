@@ -102,9 +102,10 @@ class Achieved extends Model {
                     $response[$type]['achievement_id'][] = $achieved->achievement_id;
                     continue;
                 }
-                $response[$type][] = $achieved->only('achievement_id', 'number');
+                    $response[$type][] = $achieved->only('achievement_id', 'number');
             }
         }
+
         $commonlyAchieveds = (new CommonlyAchieved())->where('user_id', User::getUserId($request->token))
             ->get();
 

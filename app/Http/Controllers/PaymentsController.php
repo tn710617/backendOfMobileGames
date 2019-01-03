@@ -2,50 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\MutualAccomplishment;
+use App\CommonlyAchieved;
 use App\Payment;
 use App\PaymentDetail;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class PaymentsController extends Controller {
 
     public function paymentShow(Request $request)
     {
-
         return view('payment');
     }
 
 
     public function paymentResponse(Request $request)
     {
-        $MerchantTradeNo = $_POST['MerchantTradeNo'];
-        $PayAmt = $_POST['PayAmt'];
-        $PaymentDate = $_POST['PaymentDate'];
-        $PaymentType = $_POST['PaymentType'];
-        $RtnCode = $_POST['RtnCode'];
-        $CheckMacValue = $_POST['CheckMacValue'];
+        $MerchantTradeNo = $request->MerchantTradeNo;
+        $PayAmt = $request->PayAmt;
+        $PaymentDate = $request->PaymentDate;
+        $RtnCode = $request->RtnCode;
         $Payer= Payment::where('MerchantTradeNo', $MerchantTradeNo)->first();
         $Status = $Payer->Status;
-        $UserId = $Payer->user_id;
-        $RemainingPoints = User::getTotalRemainingPoints($UserId);
+        $user_id = $Payer->user_id;
+        $remainingPoints = User::getTotalRemainingPoints($user_id);
+        $PaymentType = $request->PaymentType;
+        $CheckMacValue = $request->CheckMacValue;
 
         if (($RtnCode == 1) && ($Status !== 1))
         {
-            if ($PayAmt >= 2000)
-            {
-                MutualAccomplishment::where('user_id', $UserId)->update(['YouAreFilthyRich' => 1]);
-            }
+            CommonlyAchieved::achieveDepositAchievement($PayAmt, $user_id);
             Payment::where('MerchantTradeNo', $MerchantTradeNo)->update(['PaymentDate' => $PaymentDate, 'Status' => 1]);
-            User::where('id', $UserId)->update(['RemainingPoints' => $RemainingPoints + $PayAmt]);
+            User::where('id', $user_id)->update(['RemainingPoints' => $remainingPoints + $PayAmt]);
             PaymentDetail::forceCreate([
-                'user_id' => $UserId,
+                'user_id' => $user_id,
                 'amount' => $PayAmt,
-                'motion' => 'add',
-                'item' => 'deposit',
-                'remainingPoints' => User::getTotalRemainingPoints($UserId),
+                'motion' => 'deposit',
+                'item' => 'energy point',
+                'remainingPoints' => User::getTotalRemainingPoints($user_id),
             ]);
         }
 
@@ -54,7 +48,6 @@ class PaymentsController extends Controller {
         $txt = print_r($_POST, true);
         fwrite($myfile, $txt);
         fclose($myfile);
-
     }
 
     public function showOrders(Request $request)
@@ -109,8 +102,8 @@ class PaymentsController extends Controller {
 
 
             //基本參數(請依系統規劃自行調整)
-            $obj->Send['ReturnURL'] = 'http://ead729ee.ngrok.io/api/paymentResponse';    //付款完成通知回傳的網址
-            $obj->Send['ClientBackURL'] = 'http://ead729ee.ngrok.io/';    //付款完成通知回傳的網址
+            $obj->Send['ReturnURL'] = 'https://848abdda.ngrok.io/api/paymentResponse';    //付款完成通知回傳的網址
+            $obj->Send['ClientBackURL'] = 'https://848abdda.ngrok.io/';    //付款完成通知回傳的網址
             $obj->Send['MerchantTradeNo'] = $merchantTradeNo;
             $obj->Send['MerchantTradeDate'] = $merchantTradeDate;                              //交易時間
             $obj->Send['TotalAmount'] = $amount;                                             //交易金額
