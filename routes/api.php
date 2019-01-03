@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::post('/paymentResponse', 'PaymentsController@paymentResponse');
-
+Route::post('/profile', 'ApiSessionsController@show')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/register', 'ApiRegistrationController@register')->middleware('content_length');
 Route::post('/login', 'ApiLoginController@login')->middleware('content_length');
 Route::post('/getAchievementList', 'AchievementController@show')->middleware('content_length')->middleware('tokenValidator');
