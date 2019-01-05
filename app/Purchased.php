@@ -120,15 +120,15 @@ class Purchased extends Model {
             ->update(['number' => $purchased->number + $number]);
     }
 
-    public static function getPossessedItems($request)
+    public static function getPossessedItems($token, Model $binding)
     {
         $response = [];
-        $possessions = (new Purchased())->where('user_id', User::getUserId($request->token))
+        $possessions = (new Purchased())->where('user_id', User::getUserId($token))
             ->get();
         foreach ($possessions as $possession)
         {
             $type = Item::find($possession->item_id)->type->name;
-            if(Item::find($possession->item_id)->game_id == $request->game_id)
+            if(Item::find($possession->item_id)->game_id == $binding->id)
             {
                 if($type == 'one-time')
                 {
