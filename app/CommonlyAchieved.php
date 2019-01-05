@@ -17,7 +17,7 @@ class CommonlyAchieved extends Model
         {
             $commonlyAchieved = new CommonlyAchieved();
             $commonlyAchieved->forceCreate([
-                'user_id'               => User::getUserId($request->token),
+                'user_id'               => User::getUserId($request->bearerToken()),
                 'common_achievement_id' => $toBeInserted->id,
                 'mutual_achievement_id' => $toBeInserted->mutual_achievement_id,
                 'number'                => $toBeInserted->number,
@@ -26,12 +26,12 @@ class CommonlyAchieved extends Model
 
     }
 
-    public static function countAndReturnWhenCommonAchievementAchieved($request)
+    public static function countAndReturnWhenCommonAchievementAchieved($request, Model $binding)
     {
         $commonlyAchieved = new CommonlyAchieved();
         $toBeUpdateds = $commonlyAchieved
-            ->where('user_id', User::getUserId($request->token))
-            ->where('mutual_achievement_id', Achievement::getMutualAchievementNumber($request) )
+            ->where('user_id', User::getUserId($request->bearerToken()))
+            ->where('mutual_achievement_id', $binding->mutual_achievement_id)
             ->get();
         $isCommonAchievementAchieved = false;
         foreach ($toBeUpdateds as $toBeUpdated)

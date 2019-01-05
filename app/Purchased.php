@@ -7,66 +7,67 @@ use Illuminate\Http\Request;
 
 class Purchased extends Model {
 
-    public static function executeByType($request, $type)
+    public static function executeByType(Request $request, $type, Model $binding)
     {
         switch ($type)
         {
             case 'one-time':
-                if (Helpers::whetherRemainingPointsAreEnough($request) == false)
+                if (Helpers::whetherRemainingPointsAreEnough($request->bearerToken()) == false)
                 {
                     return Helpers::result(false, 'Your remaining points are not enough');
                 }
 
-                $item_id = $request->item_id;
-                if (!Helpers::whetherExists(new self(), new Item(), $request))
+                if (!Helpers::whetherExists(new self(), $binding, $request->bearerToken()))
                 {
-                    Helpers::recordOneTimeStuff(new self(), new Item(), $request);
-                    PaymentDetail::record(User::getUserId($request->token),
+                    Helpers::recordOneTimeStuff(new self(), $binding, $request);
+                    PaymentDetail::record(User::getUserId($request->bearerToken()),
                         'consume',
-                        Item::getItemName($item_id),
-                        Item::getItemCost($item_id),
-                        Item::getGameName($item_id));
+                        Item::getItemName($binding->id),
+                        Item::getItemCost($binding->id),
+                        Item::getGameName($binding->id));
 
-                    return Helpers::result(true, Item::getItemName($item_id)
+                    return Helpers::result(true, Item::getItemName($binding->id)
                         . ' has been purchased');
                 }
 
-                return Helpers::result(false, item::getItemName($item_id)
+                return Helpers::result(false, item::getItemName($binding->id)
                     . ' was already purchased');
                 break;
 
 
             case 'aggregatable':
-                if (Helpers::whetherRemainingPointsAreEnough($request, $request->number) === false)
+
+                if (Helpers::whetherRemainingPointsAreEnough($request->bearerToken(), $request->number) === false)
                 {
                     return Helpers::result(false, 'Your remaining points are not enough');
                 }
 
                 $hasOrHave = Helpers::switchHasBetweenSingularAndPlural($request->number);
 
-                PaymentDetail::record(User::getUserId($request->token)
+                PaymentDetail::record(User::getUserId($request->bearerToken())
                     , 'consume'
-                    , Item::getItemName($request->item_id)
-                    , Item::getItemCost($request->item_id) * $request->number
-                    , Item::getGameName($request->item_id));
+                    , Item::getItemName($binding->id)
+                    , Item::getItemCost($binding->id) * $request->number
+                    , Item::getGameName($binding->id));
 
-                if (!Helpers::whetherExists(new self(), new Item(), $request))
+
+                if (!Helpers::whetherExists(new self(), $binding, $request->bearerToken()))
                 {
-                    Purchased::recordAggregatableStuff($request);
+                    Purchased::recordAggregatableStuff($request, $binding);
 
-                    PaymentDetail::record(User::getUserId($request->token),
+                    PaymentDetail::record(User::getUserId($request->bearerToken()),
                         'consume',
-                        Item::getItemName($request->item_id),
-                        Item::getItemCost($request->item_id) * $request->number,
-                        Item::getGameName($request->item_id));
+                        Item::getItemName($binding->id),
+                        Item::getItemCost($binding->id) * $request->number,
+                        Item::getGameName($binding->id));
 
-                    return Helpers::result(true, Item::getItemName($request->item_id) . ' * ' . $request->number
+                    return Helpers::result(true, $binding->name . ' * ' . $request->number
                         . " $hasOrHave been purchased");
                 }
 
-                Purchased::updateAggregatableStuff($request);
+                Purchased::updateAggregatableStuff($request, $binding);
 
-                return Helpers::result(true, Item::getItemName($request->item_id) . ' * ' . $request->number
+                return Helpers::result(true, $binding->name . ' * ' . $request->number
                     . " $hasOrHave been purchased");
 
                 break;
@@ -99,27 +100,25 @@ class Purchased extends Model {
             ->first()->number;
     }
 
-    public static function recordAggregatableStuff($request)
+    public static function recordAggregatableStuff($request, Model $binding)
     {
         Purchased::forceCreate([
-            'user_id' => User::getUserId($request->token),
-            'item_id' => $request->item_id,
+            'user_id' => User::getUserId($request->bearerToken()),
+            'item_id' => $binding->id,
             'number'  => $request->number,
         ]);
     }
 
-    public static function updateAggregatableStuff($request)
+    public static function updateAggregatableStuff($request, Model $binding)
     {
         $type = substr($_SERVER['REQUEST_URI'], 5);
 
-        $purchased = (new Purchased())->where('user_id', User::getUserId($request->token))
-            ->where('item_id', $request->item_id)->first();
+        $purchased = (new Purchased())->where('user_id', User::getUserId($request->bearerToken()))
+            ->where('item_id', $binding->id)->first();
 
-        return $purchased->where('user_id', User::getUserId($request->token))
-            ->where('item_id', $request->item_id)
-            ->update(['number' => ($type == 'use')
-                ? ($purchased->number - $request->number)
-                : ($purchased->number + $request->number)]);
+        return $purchased->where('user_id', User::getUserId($request->bearerToken()))
+            ->where('item_id', $binding->id)
+            ->update(['number' => $purchased->number + $request->number]);
     }
 
     public static function getPossessedItems($request)

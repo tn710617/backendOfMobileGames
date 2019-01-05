@@ -11,9 +11,9 @@ class Achievement extends Model
         return $this->belongsTo('App\Type');
     }
 
-    public static function getMutualAchievementNumber($request)
+    public static function getMutualAchievementNumber(Model $binding)
     {
-        return Achievement::find($request->achievement_id)->mutual_achievement_id;
+        return $binding->mutual_achievement_id;
     }
 
 

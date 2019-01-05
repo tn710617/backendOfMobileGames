@@ -17,21 +17,21 @@ class Helpers {
         return true;
     }
 
-    public static function whetherExists(Model $model1, Model $model2, $request)
+    public static function whetherExists(Model $model1, Model $binding, $token)
     {
-        $id = substr(strtolower(get_class($model2)) . '_id', 4);
-        return $model1::where('user_id', User::getUserId($request->token))
-                ->where($id, $request->$id)
+        $id = substr(strtolower(get_class($binding)) . '_id', 4);
+        return $model1::where('user_id', User::getUserId($token))
+                ->where($id, $binding->id)
                 ->count() > 0;
     }
 
-    public static function recordOneTimeStuff(Model $model1, Model $model2, Request $request)
+    public static function recordOneTimeStuff(Model $model1, Model $binding, Request $request)
     {
-        $id = substr(strtolower(get_class($model2)) . '_id', 4);
+        $id = substr(strtolower(get_class($binding)) . '_id', 4);
         $model1::forceCreate([
-            'user_id' => User::getUserId($request->token),
+            'user_id' => User::getUserId($request->bearerToken()),
             'number'  => 1,
-            $id       => $request->$id,
+            $id       => $binding->id,
             'status'  => 1,
         ]);
     }
@@ -71,11 +71,11 @@ class Helpers {
         return $uniqueToken;
     }
 
-    public static function whetherRemainingPointsAreEnough($request, $number = 1)
+    public static function whetherRemainingPointsAreEnough($token, $number = 1)
     {
-        if (User::getTotalRemainingPoints(User::getUserId($request->token))
+        if (User::getTotalRemainingPoints(User::getUserId($token))
             <
-            (Item::getItemCost(User::getUserId($request->token))) * $number)
+            (Item::getItemCost(User::getUserId($token))) * $number)
         {
             return false;
         }

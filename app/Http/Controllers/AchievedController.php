@@ -10,24 +10,11 @@ use Illuminate\Http\Request;
 
 class AchievedController extends Controller {
 
-    public function achieve(Request $request)
+    public function achieve(Request $request, Achievement $achievement)
     {
-        $toBeValidated = [
-            'achievement_id' => 'required',
-        ];
-        if($failMessage = Helpers::validation($toBeValidated, $request))
-        {
-            return Helpers::result(false, $failMessage);
-        }
+        $type = Type::getType($achievement);
 
-        if(Helpers::whetherIDExists($request->achievement_id, new Achievement()) == false)
-        {
-            return Helpers::result(false, 'Invalid Achievement_id');
-        }
-
-        $type = Type::getType(new Achievement, $request);
-
-        return Achieved::executeByType($request, $type);
+        return Achieved::executeByType($type, $achievement, $request);
     }
 
     public function showAchieved(Request $request)

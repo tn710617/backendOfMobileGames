@@ -12,23 +12,11 @@ use Illuminate\Http\Request;
 
 class PurchasedController extends Controller {
 
-    public function purchased(Request $request)
+    public function purchased(Request $request, Item $item)
     {
-        $toBeValidated = [
-            'item_id' => 'required',
-        ];
-        if($failMessage = Helpers::validation($toBeValidated, $request))
-        {
-            return Helpers::result(false, $failMessage);
-        }
-        if(Helpers::whetherIDExists($request->item_id, new Item()) === false)
-        {
-            return Helpers::result(false, 'Invalid item_id');
-        }
+        $type = Type::getType($item);
 
-        $type = Type::getType(new Item(), $request);
-
-        return Purchased::executeByType($request, $type);
+        return Purchased::executeByType($request, $type, $item);
     }
 
 

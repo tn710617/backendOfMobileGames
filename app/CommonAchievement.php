@@ -14,11 +14,12 @@ class CommonAchievement extends Model
         return $this->belongsTo('App\Type');
     }
 
-    public static function getAllOfTheCommonAchievementsWithTheSameMutualAchievementId($request)
+    public static function getAllOfTheCommonAchievementsWithTheSameMutualAchievementId(Model $binding)
     {
         $commonAchievements = new CommonAchievement();
         return $commonAchievements
-            ->where('mutual_achievement_id', Achievement::getMutualAchievementNumber($request))
+            ->where('mutual_achievement_id', $binding->mutual_achievement_id
+            )
             ->get();
     }
 }

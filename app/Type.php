@@ -7,11 +7,9 @@ use Illuminate\Http\Request;
 
 class Type extends Model {
 
-    public static function getType($model, Request $request)
+    public static function getType(Model $binding)
     {
-        $id = substr(strtolower(get_class($model)) . '_id', 4);
-
-        return $model->find($request->$id)->type->name;
+         return $binding->type->name;
     }
 
 }

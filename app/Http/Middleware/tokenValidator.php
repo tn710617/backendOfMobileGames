@@ -17,17 +17,10 @@ class tokenValidator
      */
     public function handle($request, Closure $next)
     {
-        $toBeValidated = [
-            'token' => 'required'
-        ];
-        if ($failMessage = Helpers::validation($toBeValidated, $request))
-        {
-            return response(Helpers::result(false, $failMessage));
-        }
-        $receivedToken = $request->token;
+        $receivedToken = $request->bearerToken();
         $whetherTokenExists = User::where('api_token', $receivedToken)->count();
 
-        if ($whetherTokenExists)
+        if ($whetherTokenExists > 0)
         {
             $currentExpiryTime = User::where('api_token', $receivedToken)->first()->expiry_time;
             if ($currentExpiryTime > time())
