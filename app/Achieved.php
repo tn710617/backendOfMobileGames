@@ -86,15 +86,15 @@ class Achieved extends Model {
         return CommonlyAchieved::where('user_id', User::getUserId($request->bearerToken()))->where('mutual_achievement_id', $binding->mutual_achievement_id)->count();
     }
 
-    public static function getAchieved($request)
+    public static function getAchieved($request, Model $binding)
     {
         $response = [];
-        $achieveds = (new Achieved())->where('user_id', User::getUserId($request->token))
+        $achieveds = (new Achieved())->where('user_id', User::getUserId($request->bearerToken()))
             ->get();
         foreach ($achieveds as $achieved)
         {
             $type = Achievement::find($achieved->achievement_id)->type->name;
-            if (Achievement::find($achieved->achievement_id)->game_id == $request->game_id)
+            if (Achievement::find($achieved->achievement_id)->game_id == $binding->id)
             {
                 if ($type == 'one-time')
                 {
@@ -105,7 +105,7 @@ class Achieved extends Model {
             }
         }
 
-        $commonlyAchieveds = (new CommonlyAchieved())->where('user_id', User::getUserId($request->token))
+        $commonlyAchieveds = (new CommonlyAchieved())->where('user_id', User::getUserId($request->bearerToken()))
             ->get();
 
         foreach ($commonlyAchieveds as $commonlyAchieved)

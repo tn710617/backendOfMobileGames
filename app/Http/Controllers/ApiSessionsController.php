@@ -11,27 +11,13 @@ use Illuminate\Http\Request;
 
 class ApiSessionsController extends Controller {
 
-    public function show(Request $request)
+    public function show(Request $request, Game $game)
     {
-        $toBeValidated = [
-            'game_id' => 'required'
-        ];
-
-        if ($failMessage = Helpers::validation($toBeValidated, $request))
-        {
-            return Helpers::result(false, $failMessage);
-        }
-
-        if(Helpers::whetherIDExists($request->game_id, new Game()) === false)
-        {
-            return Helpers::result(false, 'Invalid game_id');
-        }
-
-        $user = (new User())->find(User::getUserId($request->token));
+        $user = (new User())->find(User::getUserId($request->bearerToken()));
         $remainingPoints = $user->remainingPoints;
         $email = $user->email;
-        $achievedAchievement = Achieved::getAchieved($request);
-        $possessions = Purchased::getPossessedItems($request);
+        $achievedAchievement = Achieved::getAchieved($request, $game);
+        $possessions = Purchased::getPossessedItems($request->bearerToken(), $game);
         $response = ['email'               => $email,
                      'remainingPoints'     => $remainingPoints,
                      'achievedAchievement' => $achievedAchievement,
