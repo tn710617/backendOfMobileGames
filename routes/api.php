@@ -24,7 +24,7 @@ Route::post('/register', 'ApiRegistrationController@register')->middleware('cont
 Route::post('/login', 'ApiLoginController@login')->middleware('content_length');
 Route::get('/achievements/{game}', 'AchievementController@show')->where('game', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
 Route::get('/items/{game}', 'ItemController@show')->where('game', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::post('/getCommonAchievementList', 'CommonAchievementController@show')->middleware('content_length')->middleware('tokenValidator');
+Route::get('/common-achievements', 'CommonAchievementController@show')->where('game', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/achievements/{achievement}', 'achievedController@achieve')->where('achievement', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/items/{item}', 'PurchasedController@purchased')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
 Route::put('/items/{item}', 'PurchasedController@use')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
