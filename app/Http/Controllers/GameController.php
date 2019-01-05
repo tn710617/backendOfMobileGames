@@ -10,35 +10,20 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    public function play(Request $request)
+    public function play(Request $request, Game $game)
     {
-        $toBeValidated = [
-            'game_id' => 'required'
-        ];
-
-        if ($failMessage = Helpers::validation($toBeValidated, $request))
-        {
-            return Helpers::result(false, $failMessage);
-        }
-
-        if(Helpers::whetherIDExists($request->game_id, new Game()) === false)
-        {
-            return Helpers::result(false, 'Invalid game_id');
-        }
-
-        $game = (new Game())->find($request->game_id)->first();
-        if(User::getTotalRemainingPoints(User::getUserId($request->token)) < $game->cost)
+        if(User::getTotalRemainingPoints(User::getUserId($request->bearerToken())) < $game->cost)
         {
             return Helpers::result(false, 'Your remaining points are not enough');
         }
 
-        PaymentDetail::record(User::getUserId($request->token)
+        PaymentDetail::record(User::getUserId($request->bearerToken())
         ,'consume'
         ,''
         ,$game->cost
         ,$game->name);
 
-        $response = ['remainingPoints' => User::getTotalRemainingPoints(User::getUserId($request->token))];
+        $response = ['remainingPoints' => User::getTotalRemainingPoints(User::getUserId($request->bearerToken()))];
         return Helpers::result(true, $response);
     }
 }
