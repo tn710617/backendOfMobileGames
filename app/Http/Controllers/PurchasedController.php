@@ -20,10 +20,9 @@ class PurchasedController extends Controller {
     }
 
 
-    public function use(Request $request)
+    public function use(Request $request, Item $item)
     {
         $toBeValidated = [
-            'item_id' => 'required',
             'number' => 'required'
         ];
         if ($failMessage = Helpers::validation($toBeValidated, $request))
@@ -31,12 +30,7 @@ class PurchasedController extends Controller {
             return Helpers::result(false, $failMessage);
         }
 
-        if(Helpers::whetherIDExists($request->item_id, new Item()) === false)
-        {
-            return Helpers::result(false, 'Invalid item_id');
-        }
-
-        return Purchased::use($request);
+        return Purchased::use($request, $item);
     }
 
     public function possessions(Request $request)

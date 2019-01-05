@@ -27,7 +27,7 @@ Route::get('/items/{game}', 'ItemController@show')->where('game', '[0-9]+')->mid
 Route::post('/getCommonAchievementList', 'CommonAchievementController@show')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/achievements/{achievement}', 'achievedController@achieve')->where('achievement', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/items/{item}', 'PurchasedController@purchased')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::post('/use', 'PurchasedController@use')->middleware('content_length')->middleware('tokenValidator');
+Route::put('/items/{item}', 'PurchasedController@use')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/possessions', 'PurchasedController@possessions')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/play', 'GameController@play')->middleware('content_length')->middleware('tokenValidator');
 Route::post('/showAchieved', 'AchievedController@showAchieved')->middleware('content_length')->middleware('tokenValidator');

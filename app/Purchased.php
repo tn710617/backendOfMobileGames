@@ -65,7 +65,7 @@ class Purchased extends Model {
                         . " $hasOrHave been purchased");
                 }
 
-                Purchased::updateAggregatableStuff($request, $binding);
+                Purchased::updateAggregatableStuff($request->number, $request->bearerToken(), $binding);
 
                 return Helpers::result(true, $binding->name . ' * ' . $request->number
                     . " $hasOrHave been purchased");
@@ -74,29 +74,30 @@ class Purchased extends Model {
         }
     }
 
-    public static function use(Request $request)
+    public static function use(Request $request, Model $binding)
     {
-        if (Type::getType(new Item, $request) !== 'aggregatable')
+        if (Type::getType($binding) !== 'aggregatable')
         {
             return Helpers::result(false, 'invalid operation');
         }
-        if (Purchased::getItemNumber($request) < $request->number)
+        if (Purchased::getItemNumber($request->bearerToken(), $binding) < $request->number)
         {
             return Helpers::result(false, 'Required quantity is not enough');
         }
 
-        Purchased::updateAggregatableStuff($request);
+        $number = (-$request->number);
+        Purchased::updateAggregatableStuff($number, $request->bearerToken(), $binding);
         $hasOrHave = Helpers::switchHasBetweenSingularAndPlural($request->number);
 
-        return Helpers::result(true, Item::getItemName($request->item_id) . ' * ' . $request->number
+        return Helpers::result(true, Item::getItemName($binding->id) . ' * ' . $request->number
             . " $hasOrHave been used");
 
     }
 
-    public static function getItemNumber($request)
+    public static function getItemNumber($token, Model $binding)
     {
-        return Purchased::where('user_id', User::getUserId($request->token))
-            ->where('item_id', $request->item_id)
+        return Purchased::where('user_id', User::getUserId($token))
+            ->where('item_id', $binding->id)
             ->first()->number;
     }
 
@@ -109,16 +110,14 @@ class Purchased extends Model {
         ]);
     }
 
-    public static function updateAggregatableStuff($request, Model $binding)
+    public static function updateAggregatableStuff($number, $token, Model $binding)
     {
-        $type = substr($_SERVER['REQUEST_URI'], 5);
-
-        $purchased = (new Purchased())->where('user_id', User::getUserId($request->bearerToken()))
+        $purchased = (new Purchased())->where('user_id', User::getUserId($token))
             ->where('item_id', $binding->id)->first();
 
-        return $purchased->where('user_id', User::getUserId($request->bearerToken()))
+        return $purchased->where('user_id', User::getUserId($token))
             ->where('item_id', $binding->id)
-            ->update(['number' => $purchased->number + $request->number]);
+            ->update(['number' => $purchased->number + $number]);
     }
 
     public static function getPossessedItems($request)
