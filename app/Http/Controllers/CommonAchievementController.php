@@ -18,6 +18,6 @@ class CommonAchievementController extends Controller
             $response[$type][] = $data->only(['id', 'name']);
         }
 
-        return Helpers::result(true, $response);
+        return Helpers::result(true, $response, 200);
     }
 }

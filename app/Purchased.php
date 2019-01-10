@@ -14,7 +14,7 @@ class Purchased extends Model {
             case 'one-time':
                 if (Helpers::whetherRemainingPointsAreEnough($request->bearerToken()) == false)
                 {
-                    return Helpers::result(false, 'Your remaining points are not enough');
+                    return Helpers::result(false, 'Your remaining points are not enough', 400);
                 }
 
                 if (!Helpers::whetherExists(new self(), $binding, $request->bearerToken()))
@@ -27,11 +27,11 @@ class Purchased extends Model {
                         Item::getGameName($binding->id));
 
                     return Helpers::result(true, Item::getItemName($binding->id)
-                        . ' has been purchased');
+                        . ' has been purchased', 200);
                 }
 
                 return Helpers::result(false, item::getItemName($binding->id)
-                    . ' was already purchased');
+                    . ' was already purchased', 400);
                 break;
 
 
@@ -39,7 +39,7 @@ class Purchased extends Model {
 
                 if (Helpers::whetherRemainingPointsAreEnough($request->bearerToken(), $request->number) === false)
                 {
-                    return Helpers::result(false, 'Your remaining points are not enough');
+                    return Helpers::result(false, 'Your remaining points are not enough', 400);
                 }
 
                 $hasOrHave = Helpers::switchHasBetweenSingularAndPlural($request->number);
@@ -62,13 +62,13 @@ class Purchased extends Model {
                         Item::getGameName($binding->id));
 
                     return Helpers::result(true, $binding->name . ' * ' . $request->number
-                        . " $hasOrHave been purchased");
+                        . " $hasOrHave been purchased", 200);
                 }
 
                 Purchased::updateAggregatableStuff($request->number, $request->bearerToken(), $binding);
 
                 return Helpers::result(true, $binding->name . ' * ' . $request->number
-                    . " $hasOrHave been purchased");
+                    . " $hasOrHave been purchased", 200);
 
                 break;
         }
@@ -78,11 +78,11 @@ class Purchased extends Model {
     {
         if (Type::getType($binding) !== 'aggregatable')
         {
-            return Helpers::result(false, 'invalid operation');
+            return Helpers::result(false, 'invalid operation', 400);
         }
         if (Purchased::getItemNumber($request->bearerToken(), $binding) < $request->number)
         {
-            return Helpers::result(false, 'Required quantity is not enough');
+            return Helpers::result(false, 'Required quantity is not enough', 400);
         }
 
         $number = (-$request->number);
@@ -90,7 +90,7 @@ class Purchased extends Model {
         $hasOrHave = Helpers::switchHasBetweenSingularAndPlural($request->number);
 
         return Helpers::result(true, Item::getItemName($binding->id) . ' * ' . $request->number
-            . " $hasOrHave been used");
+            . " $hasOrHave been used", 200);
 
     }
 
