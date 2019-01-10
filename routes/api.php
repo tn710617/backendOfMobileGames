@@ -17,18 +17,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::post('/paymentResponse', 'PaymentsController@paymentResponse');
-Route::get('/profile/{game}', 'ApiSessionsController@show')->where('game', '[0-9]+')->middleware('tokenValidator')->middleware('content_length');
 Route::post('/register', 'ApiRegistrationController@register')->middleware('content_length');
 Route::post('/login', 'ApiLoginController@login')->middleware('content_length');
-Route::get('/achievements/{game}', 'AchievementController@show')->where('game', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::get('/items/{game}', 'ItemController@show')->where('game', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::get('/common-achievements', 'CommonAchievementController@show')->where('game', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::post('/achievements/{achievement}', 'achievedController@achieve')->where('achievement', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::post('/items/{item}', 'PurchasedController@purchased')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::put('/items/{item}', 'PurchasedController@use')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::get('/possessions/{game}', 'PurchasedController@possessions')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::patch('/remaining-points/{game}', 'GameController@play')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::get('/accomplished-achievements/{game}', 'AchievedController@showAchieved')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
 
+Route::middleware(['content_length', 'tokenValidator'])->group(function (){
+    Route::get('/profile/{game}', 'ApiSessionsController@show');
+    Route::get('/achievements/{game}', 'AchievementController@show');
+    Route::get('/items/{game}', 'ItemController@show');
+    Route::get('/common-achievements', 'CommonAchievementController@show');
+    Route::post('/achievements/{achievement}', 'achievedController@achieve');
+    Route::post('/items/{item}', 'PurchasedController@purchased');
+    Route::put('/items/{item}', 'PurchasedController@use');
+    Route::get('/possessions/{game}', 'PurchasedController@possessions');
+    Route::patch('/remaining-points/{game}', 'GameController@play');
+    Route::get('/accomplished-achievements/{game}', 'AchievedController@showAchieved');
+});

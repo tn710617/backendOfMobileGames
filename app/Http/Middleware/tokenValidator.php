@@ -30,6 +30,6 @@ class tokenValidator
             return $next($request);
         }
 
-        return response(Helpers::result(false, 'Please login before further proceeding', 401));
+        return Helpers::result(false, 'Please login before further proceeding', 401);
     }
 }
