@@ -22,7 +22,7 @@ class ItemController extends Controller {
             $response[$type][] = $data->only('id', 'name', 'cost');
         }
 
-        return Helpers::result(true, $response);
+        return Helpers::result(true, $response, 200);
     }
 
 

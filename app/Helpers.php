@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 class Helpers {
@@ -45,9 +46,9 @@ class Helpers {
         return 'has';
     }
 
-    public static function result($result, $response)
+    public static function result($result, $response, $statusCode)
     {
-        return ['result' => $result, 'response' => $response];
+        return Response::json(['result' => $result, 'response' => $response], $statusCode);
     }
 
     public static function validation(Array $toBeValidated, Request $request)

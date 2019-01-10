@@ -24,7 +24,7 @@ class ApiSessionsController extends Controller {
                      'possessions'         => $possessions,
         ];
 
-        return Helpers::result(true, $response);
+        return Helpers::result(true, $response, '200');
     }
 
 }

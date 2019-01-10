@@ -22,7 +22,7 @@ class ApiRegistrationController extends Controller
         ];
         if ($failMessage = Helpers::validation($toBeValidated, $request))
         {
-            return Helpers::result(false, $failMessage);
+            return Helpers::result(false, $failMessage, '400');
         }
 
         User::forceCreate([
@@ -34,6 +34,6 @@ class ApiRegistrationController extends Controller
 
         PaymentDetail::record($user_id, 'deposit', 'gift', 500, '');
 
-        return Helpers::result(true, 'You\'ve successfully registered');
+        return Helpers::result(true, 'You\'ve successfully registered', '200');
     }
 }

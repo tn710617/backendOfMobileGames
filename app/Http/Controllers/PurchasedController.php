@@ -27,7 +27,7 @@ class PurchasedController extends Controller {
         ];
         if ($failMessage = Helpers::validation($toBeValidated, $request))
         {
-            return Helpers::result(false, $failMessage);
+            return Helpers::result(false, $failMessage, '400');
         }
 
         return Purchased::use($request, $item);
@@ -35,12 +35,8 @@ class PurchasedController extends Controller {
 
     public function possessions(Request $request, Game $game)
     {
-        if(!$game->id)
-        {
-            return Helpers::result(false, 'Invalid game_id');
-        }
         $response = Purchased::getPossessedItems($request->bearerToken(), $game);
 
-        return Helpers::result(true, $response);
+        return Helpers::result(true, $response, '200');
     }
 }
