@@ -34,11 +34,11 @@ class Achieved extends Model {
                     Helpers::recordOneTimeStuff(new self(), $binding, $request);
 
                     return Helpers::result(true, $binding->name
-                        . ' has been achieved');
+                        . ' has been achieved', 200);
                 }
 
                 return Helpers::result(false, $binding->name
-                    . ' was already achieved');
+                    . ' was already achieved', 400);
                 break;
 
             case 'aggregatable':
@@ -46,7 +46,7 @@ class Achieved extends Model {
                 {
                     Helpers::recordOneTimeStuff(new self(), $binding, $request);
 
-                    return Helpers::result(true, $binding->name . ' has been achieved');
+                    return Helpers::result(true, $binding->name . ' has been achieved', 200);
                 }
 
                 Achieved::updateNumberOfPersonalAchievement($request, $binding);
@@ -63,12 +63,12 @@ class Achieved extends Model {
                     $response = CommonlyAchieved::countAndReturnWhenCommonAchievementAchieved($request, $binding);
                     if ($response)
                     {
-                        return Helpers::result(true, $response);
+                        return Helpers::result(true, $response, 200);
                     }
 
                 }
 
-                return Helpers::result(true, $binding->name . ' has been achieved');
+                return Helpers::result(true, $binding->name . ' has been achieved', 200);
                 break;
         }
     }

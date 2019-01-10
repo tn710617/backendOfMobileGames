@@ -31,5 +31,4 @@ Route::put('/items/{item}', 'PurchasedController@use')->where('item', '[0-9]+')-
 Route::get('/possessions/{game}', 'PurchasedController@possessions')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
 Route::patch('/remaining-points/{game}', 'GameController@play')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
 Route::get('/accomplished-achievements/{game}', 'AchievedController@showAchieved')->where('item', '[0-9]+')->middleware('content_length')->middleware('tokenValidator');
-Route::post('/test', 'CommonlyAchievedController@test')->middleware('content_length')->middleware('tokenValidator');
 

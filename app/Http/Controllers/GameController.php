@@ -14,7 +14,7 @@ class GameController extends Controller
     {
         if(User::getTotalRemainingPoints(User::getUserId($request->bearerToken())) < $game->cost)
         {
-            return Helpers::result(false, 'Your remaining points are not enough');
+            return Helpers::result(false, 'Your remaining points are not enough', 400);
         }
 
         PaymentDetail::record(User::getUserId($request->bearerToken())
@@ -24,6 +24,6 @@ class GameController extends Controller
         ,$game->name);
 
         $response = ['remainingPoints' => User::getTotalRemainingPoints(User::getUserId($request->bearerToken()))];
-        return Helpers::result(true, $response);
+        return Helpers::result(true, $response, 200);
     }
 }
