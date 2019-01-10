@@ -53,10 +53,10 @@ class Handler extends ExceptionHandler
         {
             return Helpers::result(false, 'Invalid parameters', '400');
         }
-//        if ($exception instanceof NotFoundHttpException)
-//        {
-//            return Helpers::result(false, 'Invalid method', '405');
-//        }
+        if ($exception instanceof NotFoundHttpException)
+        {
+            return Helpers::result(false, 'Invalid method', '405');
+        }
         return parent::render($request, $exception);
     }
 }
