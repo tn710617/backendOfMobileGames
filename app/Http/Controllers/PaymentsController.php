@@ -102,8 +102,8 @@ class PaymentsController extends Controller {
 
 
             //基本參數(請依系統規劃自行調整)
-            $obj->Send['ReturnURL'] =env('ReturnURL');    //付款完成通知回傳的網址
-            $obj->Send['ClientBackURL'] = env('ClientBackURL');    //付款完成通知回傳的網址
+            $obj->Send['ReturnURL'] = env('ReturnURL');
+            $obj->Send['ClientBackURL'] = env('ClientBackURL');
             $obj->Send['MerchantTradeNo'] = $merchantTradeNo;
             $obj->Send['MerchantTradeDate'] = $merchantTradeDate;                              //交易時間
             $obj->Send['TotalAmount'] = $amount;                                             //交易金額
