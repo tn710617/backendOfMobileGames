@@ -108,7 +108,7 @@ class PaymentsController extends Controller {
             $obj->Send['MerchantTradeDate'] = $merchantTradeDate;                              //交易時間
             $obj->Send['TotalAmount'] = $amount;                                             //交易金額
             $obj->Send['TradeDesc'] = $tradeDescription;                                 //交易描述
-            $obj->Send['ChoosePayment'] = \PaymentMethod::Credit;                           //付款方式:Credit
+            $obj->Send['ChoosePayment'] = \PaymentMethod::ALL;                           //付款方式:Credit
 
             //訂單的商品資料
             array_push($obj->Send['Items'], array('Name'     => $itemName, 'Price' => (int) $unitPrice,
