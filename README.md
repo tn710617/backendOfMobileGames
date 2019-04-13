@@ -40,8 +40,8 @@ English | [繁體中文](./README.zh-TW.md)
     
  
 ## installing instruction (command line):
- 1. `git clone git@github.com:tn710617/checkinSystem.git`
- 2. `cd checkinSystem` `composer install` 
+ 1. git clone `git@github.com:tn710617/backendOfMobileGames.git`
+ 2. type `cd backendOfMobileGames`
  3. Create a database. 
  4. Enter `cp .env.example .env`
 , and replace the parameters with your database setting.
@@ -54,4 +54,5 @@ English | [繁體中文](./README.zh-TW.md)
  9. Hope that you will be enjoying it.
  
  For information in detail, please refer to the documentation as follows:
- https://tn710617.github.io/API_Document/checkInSystem/
+ `https://tn710617.github.io/API_Document/backendOfGameAndOnlineDepositingSystem/`
+
